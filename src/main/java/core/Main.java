@@ -5,12 +5,27 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        WebsiteCrawler w = new WebsiteCrawler("https://dumbodaschosn.wordpress.com/");
-        writeToFile("report.md",w.getRepresentation(2, translateLanguageToCode("English")));
+        System.out.println("URL: (Make sure to insert the WHOLE url)");
+        Scanner scanner = new Scanner(System.in);
+
+        String url = scanner.nextLine();
+
+        System.out.println("Depth: (Greater than 2 takes very long)");
+        int depth = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Language: ");
+        String targetLanguage = scanner.nextLine();
+
+        System.out.println("Output Path and file name: (Relative. for example: result.md)");
+        String targetPath = scanner.nextLine();
+
+        WebsiteCrawler w = new WebsiteCrawler(url);
+        writeToFile(targetPath,w.getRepresentation(depth, translateLanguageToCode(targetLanguage)));
     }
 
     public static void writeToFile(String path, String text){
