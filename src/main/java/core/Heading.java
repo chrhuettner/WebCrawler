@@ -3,43 +3,28 @@ package core;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
-import com.deepl.api.Translator;
 
 public class Heading {
 
     private int type;
     private String text;
-    private String language;
-    private static  Translator translator;
+    private String sourceLanguage;
+    private String translatedText;
+    private String targetLanguage;
 
-    static{
-        String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
-        translator = new Translator(authKey);
-
-    }
-
-    public static TextResult translate(String text, String sourceLanguage, String targetLanguage){
-        TextResult result = null;
-        if(text.isEmpty()){
-            return new TextResult("", "en-GB");
-        }
-        try {
-            result = translator.translateText(text, sourceLanguage, targetLanguage);
-        } catch (DeepLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public Heading(int type, String text) {
+    public Heading(int type, String text, String targetLanguage) {
         this.type = type;
         this.text = text;
-
-        language = translate(text, null, "en-GB").getDetectedSourceLanguage();
+        this.targetLanguage = targetLanguage;
 
     }
+
+    private void doTranslation(){
+        TextResult translation = Translator.translate(text, null, targetLanguage);
+        this.sourceLanguage = translation.getDetectedSourceLanguage();
+        this.translatedText = translation.getText();
+    }
+
 
     public int getType() {
         return type;
@@ -49,25 +34,30 @@ public class Heading {
         return text;
     }
 
-    public String translateHeading(String targetLanguage) {
-
-        return translate(text, null, targetLanguage).getText();
+    public String getTranslatedHeading() {
+        if(translatedText == null){
+            doTranslation();
+        }
+        return translatedText;
     }
 
-    public String getLanguage() {
-        return Main.translateCodeToLanguage(language);
+    public String getSourceLanguage() {
+        if(sourceLanguage == null) {
+            doTranslation();
+        }
+        return Language.translateCodeToLanguage(sourceLanguage);
     }
 
-    public String getRepresentation(String targetLanguage) {
+    public String getRepresentation() {
         String indentations = "";
         for(int i = 0; i<type;i++){
             indentations += "#";
         }
-        String translation =  translateHeading(targetLanguage);
+        String translation =  getTranslatedHeading();
 
         if(translation.isBlank()){
             return "";
         }
-        return indentations+" -->" + translateHeading(targetLanguage);
+        return indentations+" -->" + getTranslatedHeading();
     }
 }

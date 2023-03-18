@@ -1,6 +1,5 @@
 package core;
 
-import java.util.List;
 import java.util.Map;
 
 public class WebsiteLink {
@@ -9,11 +8,13 @@ public class WebsiteLink {
     private int depth;
     private boolean isBroken;
 
-    public WebsiteLink(String url, Heading[] heading, int depth, boolean isBroken) {
+    public WebsiteLink(String url, Heading[] headings, int depth, boolean isBroken) {
         this.url = url;
-        headings = heading;
+        this.headings = headings;
         this.depth = depth;
         this.isBroken = isBroken;
+
+
     }
 
     public String getUrl() {
@@ -48,21 +49,23 @@ public class WebsiteLink {
             }
         }
        for(Heading heading: headings){
-           String headingRepresentation =  heading.getRepresentation(targetLanguage);
+           String headingRepresentation =  heading.getRepresentation();
            if(!headingRepresentation.isBlank()) {
                representation += headingRepresentation+System.lineSeparator();
            }
        }
        representation += System.lineSeparator();
+
+
        return representation;
     }
 
     public void insertUniqueLanguages( Map<String, Integer> languages){
         for(Heading h: headings){
-            if(!languages.containsKey(h.getLanguage())){
-                languages.put(h.getLanguage(),1);
+            if(!languages.containsKey(h.getSourceLanguage())){
+                languages.put(h.getSourceLanguage(),1);
             }else{
-                languages.put(h.getLanguage(), languages.get(h.getLanguage())+1);
+                languages.put(h.getSourceLanguage(), languages.get(h.getSourceLanguage())+1);
             }
         }
 
