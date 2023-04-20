@@ -6,39 +6,19 @@ import com.deepl.api.TextResult;
 public class Translator {
     private static com.deepl.api.Translator translator;
 
-
     static {
         String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
         translator = new com.deepl.api.Translator(authKey);
 
     }
 
-    public static TextResult translate(String text, String sourceLanguage, String targetLanguage) {
-
-        TextResult result = null;
+    public static TextResult translate(String text, String sourceLanguage, String targetLanguage) throws DeepLException, InterruptedException, IllegalArgumentException {
+        TextResult result;
         if (text.isEmpty()) {
             return new TextResult("", "en-GB");
         }
-        try {
-            result = translator.translateText(text, sourceLanguage, targetLanguage);
-        } catch (DeepLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        result = translator.translateText(text, sourceLanguage, targetLanguage);
         return result;
-    }
-
-    public static String getLimitString() {
-        String limit = "";
-        try {
-            limit = translator.getUsage().toString();
-        } catch (DeepLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return limit;
     }
 
     public static com.deepl.api.Translator getTranslator() {

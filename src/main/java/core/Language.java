@@ -59,35 +59,39 @@ public class Language implements Comparable<Language> {
     }
 
     public static String translateLanguageToCode(String language) {
-
         try {
             for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
-                System.out.println(l.getName());
                 if (l.getName().toLowerCase().startsWith(language.toLowerCase())) {
                     return l.getCode();
                 }
             }
-        } catch (DeepLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (DeepLException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
 
     }
 
-    public static String translateCodeToLanguage(String code) {
-
+    public static String translateTargetCodeToLanguage(String code) {
         try {
-            for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {
-
+            for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
                 if (l.getCode().toLowerCase().equals(code.toLowerCase())) {
                     return l.getName();
                 }
             }
-        } catch (DeepLException e) {
+        } catch (DeepLException | InterruptedException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        }
+        return null;
+    }
+    public static String translateSourceCodeToLanguage(String code) {
+        try {
+            for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {
+                if (l.getCode().toLowerCase().equals(code.toLowerCase())) {
+                    return l.getName();
+                }
+            }
+        } catch (DeepLException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;

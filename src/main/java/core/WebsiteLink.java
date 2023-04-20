@@ -7,13 +7,13 @@ public class WebsiteLink {
     private Heading[] headings;
     private int depth;
     private boolean isBroken;
+    private String representation = "";
 
     public WebsiteLink(String url, Heading[] headings, int depth, boolean isBroken) {
         this.url = url;
         this.headings = headings;
         this.depth = depth;
         this.isBroken = isBroken;
-
     }
 
     public String getUrl() {
@@ -32,31 +32,37 @@ public class WebsiteLink {
         return isBroken;
     }
 
+    public void setBroken(boolean broken) {
+        isBroken = broken;
+    }
 
-    public String getRepresentation(String targetLanguage, boolean displayLink) {
-        String representation="";
-
+    public String getRepresentation(boolean displayLink) {
         if(displayLink) {
-            String prefixLines = "-";
-            for (int i = 0; i < depth; i++) {
-                prefixLines += "-";
-            }
-            if (isBroken) {
-                representation = "<br>" + prefixLines + "> broken link to <a>" + url + "</a>" + System.lineSeparator();
-            } else {
-                representation = "<br>" + prefixLines + "> link to <a>" + url + "</a>" + System.lineSeparator();
+            representLink();
+        }
+       representHeadings();
+       representation += System.lineSeparator();
+       return representation;
+    }
+
+    private void representLink(){
+        String prefixLines = "-";
+        for (int i = 0; i < depth; i++) {
+            prefixLines += "-";
+        }
+        if (isBroken) {
+            representation = "<br>" + prefixLines + "> broken link to <a>" + url + "</a>" + System.lineSeparator();
+        } else {
+            representation = "<br>" + prefixLines + "> link to <a>" + url + "</a>" + System.lineSeparator();
+        }
+    }
+    private void representHeadings(){
+        for(Heading heading: headings){
+            String headingRepresentation =  heading.getRepresentation(depth);
+            if(!headingRepresentation.isBlank()) {
+                representation += headingRepresentation+System.lineSeparator();
             }
         }
-       for(Heading heading: headings){
-           String headingRepresentation =  heading.getRepresentation();
-           if(!headingRepresentation.isBlank()) {
-               representation += headingRepresentation+System.lineSeparator();
-           }
-       }
-       representation += System.lineSeparator();
-
-
-       return representation;
     }
 
     public void insertUniqueLanguages( Map<String, Integer> languages){

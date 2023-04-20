@@ -20,7 +20,12 @@ public class Heading {
     }
 
     private void doTranslation() {
-        TextResult translation = Translator.translate(text, null, targetLanguage);
+        TextResult translation = null;
+        try {
+            translation = Translator.translate(text, null, targetLanguage);
+        } catch (DeepLException | InterruptedException e) {
+            e.printStackTrace();
+        }
         this.sourceLanguage = translation.getDetectedSourceLanguage();
         this.translatedText = translation.getText();
     }
@@ -45,19 +50,22 @@ public class Heading {
         if (sourceLanguage == null) {
             doTranslation();
         }
-        return Language.translateCodeToLanguage(sourceLanguage);
+        return Language.translateSourceCodeToLanguage(sourceLanguage);
     }
 
-    public String getRepresentation() {
+    public String getRepresentation(int depth) {
         String indentations = "";
         for (int i = 0; i < type; i++) {
             indentations += "#";
         }
         String translation = getTranslatedHeading();
-
         if (translation.isBlank()) {
             return "";
         }
-        return indentations + " -->" + getTranslatedHeading();
+        String lines = "";
+        for (int i=0; i < depth; i++) {
+            lines+="-";
+        }
+        return indentations + " "+lines+">" + getTranslatedHeading();
     }
 }

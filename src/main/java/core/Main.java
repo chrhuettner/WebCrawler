@@ -1,5 +1,7 @@
 package core;
 
+import com.deepl.api.DeepLException;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,23 +30,7 @@ public class Main {
         String targetPath = scanner.nextLine();
 
         WebsiteCrawler w = new WebsiteCrawler(url);
-        writeToFile(targetPath, w.createCrawlRepresentation(depth, Language.translateLanguageToCode(targetLanguage)));
-        // System.out.println(Translator.getLimitString());
-        // WebsiteCrawler w = new WebsiteCrawler("https://orf.at");
-        //writeToFile("out2.md",w.createCrawlRepresentation(2, Language.translateLanguageToCode("English")));
+
+        core.FileWriter.writeToFile(targetPath, w.createCrawlRepresentation(depth, Language.translateLanguageToCode(targetLanguage)));
     }
-
-    public static void writeToFile(String path, String text) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(path)));
-            bw.write(text);
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
 }
