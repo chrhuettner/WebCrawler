@@ -37,15 +37,15 @@ public class WebsiteLink {
     }
 
     public String getRepresentation(boolean displayLink) {
-        if(displayLink) {
+        if (displayLink) {
             representLink();
         }
-       representHeadings();
-       representation += System.lineSeparator();
-       return representation;
+        representHeadings();
+        representation += System.lineSeparator();
+        return representation;
     }
 
-    private void representLink(){
+    private void representLink() {
         String prefixLines = "-";
         for (int i = 0; i < depth; i++) {
             prefixLines += "-";
@@ -56,21 +56,22 @@ public class WebsiteLink {
             representation = "<br>" + prefixLines + "> link to <a>" + url + "</a>" + System.lineSeparator();
         }
     }
-    private void representHeadings(){
-        for(Heading heading: headings){
-            String headingRepresentation =  heading.getRepresentation(depth);
-            if(!headingRepresentation.isBlank()) {
-                representation += headingRepresentation+System.lineSeparator();
+
+    private void representHeadings() {
+        for (Heading heading : headings) {
+            String headingRepresentation = heading.getRepresentation(depth);
+            if (!headingRepresentation.isBlank()) {
+                representation += headingRepresentation + System.lineSeparator();
             }
         }
     }
 
-    public void insertUniqueLanguages( Map<String, Integer> languages){
-        for(Heading h: headings){
-            if(!languages.containsKey(h.getSourceLanguage())){
-                languages.put(h.getSourceLanguage(),1);
-            }else{
-                languages.put(h.getSourceLanguage(), languages.get(h.getSourceLanguage())+1);
+    public void insertUniqueLanguages(Map<String, Integer> languages) {
+        for (Heading h : headings) {
+            if (!languages.containsKey(h.getSourceLanguage())) {
+                languages.put(h.getSourceLanguage(), 1);
+            } else {
+                languages.put(h.getSourceLanguage(), languages.get(h.getSourceLanguage()) + 1);
             }
         }
 

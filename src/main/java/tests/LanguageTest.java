@@ -85,6 +85,7 @@ class LanguageTest {
         assertEquals(Language.translateSourceCodeToLanguage("en"), "English");
         assertEquals(Language.translateSourceCodeToLanguage("de"), "German");
     }
+
     @Test
     void testTranslateTargetCodeToLanguage() {
         assertEquals(Language.translateTargetCodeToLanguage("en-GB"), "English (British)");
@@ -92,7 +93,7 @@ class LanguageTest {
     }
 
     @Test
-    void translateCodeToLanguage() {
+    void testTranslateCodeToLanguage() {
         assertEquals(Language.translateLanguageToCode("English"), "en-GB");
         assertEquals(Language.translateLanguageToCode("German"), "de");
     }
@@ -100,7 +101,6 @@ class LanguageTest {
     private String trimRatioString(double ratio, int decimals) {
         String ratioString = (language.getRatio() * 100 + "");
         int indexOfComma = ratioString.indexOf(".") + 1;
-
         if (indexOfComma != -1) {
             ratioString = ratioString.substring(0, Math.min(ratioString.length(), indexOfComma + 2));
         }

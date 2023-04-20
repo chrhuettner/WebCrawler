@@ -6,6 +6,7 @@ import core.WebsiteCrawler;
 import core.WebsiteLink;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ class WebsiteCrawlerTest {
             Heading[] headings = new Heading[amountOfHeadingPerLink];
             for (int i = 0; i < headings.length; i++) {
                 int type = (i % 6) + 1;
+
                 headings[i] = mock(Heading.class);
                 when(headings[i].getSourceLanguage()).thenReturn("testSourceLanguage" + type);
                 when(headings[i].getTranslatedHeading()).thenReturn("translatedHeading" + type);
@@ -58,7 +60,6 @@ class WebsiteCrawlerTest {
         for (int headingCount : detectedLanguages.values()) {
             sumOfHeadings = headingCount;
         }
-
         return detectedLanguages;
     }
 
@@ -139,7 +140,7 @@ class WebsiteCrawlerTest {
     }
 
     @Test
-    void createCrawlRepresentation() {
+    void testCreateCrawlRepresentation() {
         String representation = crawler.createCrawlRepresentation(depthCrawl, "en-GB");
 
         assertTrue(representation.startsWith("input: <a>" + url));

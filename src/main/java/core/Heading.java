@@ -16,7 +16,6 @@ public class Heading {
         this.type = type;
         this.text = text;
         this.targetLanguage = targetLanguage;
-
     }
 
     private void doTranslation() {
@@ -26,10 +25,10 @@ public class Heading {
         } catch (DeepLException | InterruptedException e) {
             e.printStackTrace();
         }
+
         this.sourceLanguage = translation.getDetectedSourceLanguage();
         this.translatedText = translation.getText();
     }
-
 
     public int getType() {
         return type;
@@ -58,14 +57,17 @@ public class Heading {
         for (int i = 0; i < type; i++) {
             indentations += "#";
         }
+
         String translation = getTranslatedHeading();
         if (translation.isBlank()) {
             return "";
         }
+
         String lines = "";
-        for (int i=0; i < depth; i++) {
-            lines+="-";
+        for (int i = 0; i < depth; i++) {
+            lines += "-";
         }
-        return indentations + " "+lines+">" + getTranslatedHeading();
+
+        return indentations + " " + lines + ">" + getTranslatedHeading();
     }
 }

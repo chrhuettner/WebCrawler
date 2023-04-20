@@ -8,7 +8,7 @@ public class LogStream extends PrintStream {
 
     private ArrayList<String> outputLog;
 
-    public LogStream(OutputStream out){
+    public LogStream(OutputStream out) {
         super(out);
         outputLog = new ArrayList<>();
     }

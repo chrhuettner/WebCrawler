@@ -29,7 +29,6 @@ public class Language implements Comparable<Language> {
         this.name = name;
     }
 
-
     @Override
     public int compareTo(Language o) {
         if (this.ratio > o.getRatio()) {
@@ -69,7 +68,6 @@ public class Language implements Comparable<Language> {
             e.printStackTrace();
         }
         return null;
-
     }
 
     public static String translateTargetCodeToLanguage(String code) {
@@ -84,6 +82,7 @@ public class Language implements Comparable<Language> {
         }
         return null;
     }
+
     public static String translateSourceCodeToLanguage(String code) {
         try {
             for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {

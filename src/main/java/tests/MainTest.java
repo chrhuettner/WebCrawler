@@ -14,7 +14,7 @@ class MainTest {
     LogStream loggedOutput;
 
     @Test
-    void promptInput() {
+    void testPromptInput() {
         setUpPrompt();
 
         Main.main(null);
@@ -34,6 +34,7 @@ class MainTest {
 
         oldOut = System.out;
         oldIn = System.in;
+
         System.setIn(inputPromptURL);
         System.setOut(loggedOutput);
     }

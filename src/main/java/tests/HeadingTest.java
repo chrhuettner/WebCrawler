@@ -14,9 +14,10 @@ class HeadingTest {
     private static final int type = 1;
     private static final String targetLanguage = "de";
     private static final String language = "English";
+
     @BeforeEach
     void setUp() {
-        heading = new Heading(type,text,targetLanguage);
+        heading = new Heading(type, text, targetLanguage);
     }
 
     @Test
@@ -41,11 +42,12 @@ class HeadingTest {
 
     @Test
     void testGetRepresentation() {
-        assertEquals(heading.getRepresentation(1), "# ->"+text);
+        assertEquals(heading.getRepresentation(1), "# ->" + text);
     }
+
     @Test
     void testGetRepresentationNoText() {
-        heading = new Heading(type,"",targetLanguage);
+        heading = new Heading(type, "", targetLanguage);
         assertEquals(heading.getRepresentation(1), "");
     }
 }

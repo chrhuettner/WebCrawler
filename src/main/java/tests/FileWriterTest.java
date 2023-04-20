@@ -10,8 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileWriterTest {
 
     private static final String path = "path";
+
     @Test
-    void writeToFile() {
-       assertDoesNotThrow(()-> FileWriter.writeToFile(path,""));
+    void testWriteToFile() {
+        assertDoesNotThrow(() -> FileWriter.writeToFile(path, ""));
     }
 }

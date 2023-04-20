@@ -25,6 +25,7 @@ public class WebsiteCrawler {
         return url;
     }
 
+    // A max depth > 2 will take a very long time (exponential growth)
     public List<WebsiteLink> crawl(int maxDepth, String targetLanguage) {
         ArrayList<WebsiteLink> crawledLinks = new ArrayList<>();
         getPageLinks(url, 0, maxDepth, crawledLinks, targetLanguage);
@@ -41,9 +42,11 @@ public class WebsiteCrawler {
     private void handleURL(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         try {
             links.add(URL);
+
             Document document = Jsoup.connect(URL).get();
             WebsiteLink link = new WebsiteLink(URL, extractHeadings(document, targetLanguage), depth, false);
             webLinks.add(link);
+
             Elements linksOnPage = document.select("a[href]");
             crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
         } catch (IOException | IllegalArgumentException ex) {
@@ -91,6 +94,7 @@ public class WebsiteCrawler {
             sortedLanguages.add(new Language(ratio, language));
         }
         Collections.sort(sortedLanguages);
+
         return sortedLanguages;
     }
 
@@ -99,6 +103,7 @@ public class WebsiteCrawler {
         int headingCount = insertUniqueHeadingLanguages(crawledLinks, detectedLanguages);
         String languageRepresentation = "";
         ArrayList<Language> sortedLanguages = getSortedLanguages(detectedLanguages, headingCount);
+
         for (Language language : sortedLanguages) {
             if (languageRepresentation.isEmpty()) {
                 languageRepresentation = language.toString();
@@ -109,19 +114,24 @@ public class WebsiteCrawler {
         return languageRepresentation;
     }
 
+    // Be careful with depth, because this method will call the 'translate' method which has a limited budget
     public String createCrawlRepresentation(int depth, String targetLanguage) {
         List<WebsiteLink> crawledLinks = crawl(depth, targetLanguage);
+
         String languageRepresentation = getLanguageRepresentation(crawledLinks);
+
         representation = "input: <a>" + getUrl() + "</a>" + System.lineSeparator() +
                 "<br>depth: " + depth + System.lineSeparator() +
                 "<br>source languages: " + languageRepresentation + System.lineSeparator() +
                 "<br>target language: " + Language.translateTargetCodeToLanguage(targetLanguage) + System.lineSeparator() +
                 "<br>summary:" + System.lineSeparator();
+
         createWebsiteLinksRepresentation(crawledLinks);
+
         return representation;
     }
 
-    public void createWebsiteLinksRepresentation(List<WebsiteLink> crawledLinks) {
+    private void createWebsiteLinksRepresentation(List<WebsiteLink> crawledLinks) {
         boolean isInputWebsite = true;
         for (WebsiteLink website : crawledLinks) {
             representation += website.getRepresentation(!isInputWebsite);
