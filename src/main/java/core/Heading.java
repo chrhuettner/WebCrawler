@@ -19,7 +19,7 @@ public class Heading {
 
     }
 
-    private void doTranslation(){
+    private void doTranslation() {
         TextResult translation = Translator.translate(text, null, targetLanguage);
         this.sourceLanguage = translation.getDetectedSourceLanguage();
         this.translatedText = translation.getText();
@@ -35,14 +35,14 @@ public class Heading {
     }
 
     public String getTranslatedHeading() {
-        if(translatedText == null){
+        if (translatedText == null) {
             doTranslation();
         }
         return translatedText;
     }
 
     public String getSourceLanguage() {
-        if(sourceLanguage == null) {
+        if (sourceLanguage == null) {
             doTranslation();
         }
         return Language.translateCodeToLanguage(sourceLanguage);
@@ -50,14 +50,14 @@ public class Heading {
 
     public String getRepresentation() {
         String indentations = "";
-        for(int i = 0; i<type;i++){
+        for (int i = 0; i < type; i++) {
             indentations += "#";
         }
-        String translation =  getTranslatedHeading();
+        String translation = getTranslatedHeading();
 
-        if(translation.isBlank()){
+        if (translation.isBlank()) {
             return "";
         }
-        return indentations+" -->" + getTranslatedHeading();
+        return indentations + " -->" + getTranslatedHeading();
     }
 }

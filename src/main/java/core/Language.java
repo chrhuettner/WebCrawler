@@ -1,6 +1,10 @@
 package core;
 
-public class Language implements Comparable<Language>{
+import com.deepl.api.DeepLException;
+
+import java.util.Locale;
+
+public class Language implements Comparable<Language> {
     private double ratio;
     private String name;
 
@@ -28,168 +32,64 @@ public class Language implements Comparable<Language>{
 
     @Override
     public int compareTo(Language o) {
-        if(this.ratio > o.getRatio()){
+        if (this.ratio > o.getRatio()) {
             return -1;
         }
-        if(this.ratio == o.getRatio()){
+        if (this.ratio == o.getRatio()) {
             return 0;
         }
+        Locale l = new Locale("en");
+        l.getDisplayLanguage();
         return 1;
     }
 
     @Override
     public String toString() {
-        return name+" ("+trimRatio(2)+"%)";
+        return name + " (" + trimRatio(2) + "%)";
     }
 
-    private String trimRatio(int decimals){
+    private String trimRatio(int decimals) {
         double scaledRatio = ratio * 100;
-        String representation = ""+scaledRatio;
-        if(representation.contains(".")){
+        String representation = "" + scaledRatio;
+        if (representation.contains(".")) {
             representation = representation.substring(0, Math.min(representation.length(),
-                    representation.indexOf(".")+decimals+1));
+                    representation.indexOf(".") + decimals + 1));
         }
         return representation;
     }
 
-    public static String translateLanguageToCode(String language){
-        switch(language){
-            case "Bulgarian":
-                return "BG";
-            case "Czech":
-                return "CS";
-            case "Danish":
-                return "DA";
-            case "German":
-                return "DE";
-            case "Greek":
-                return "EL";
-            case "English":
-                return "EN-GB";
-            case "Spanish":
-                return "ES";
-            case "Estonian":
-                return "ET";
-            case "Finnish":
-                return "FI";
-            case "French":
-                return "FR";
-            case "Hungarian":
-                return "HU";
-            case "Indonesian":
-                return "ID";
-            case "Italian":
-                return "IT";
-            case "Japanese":
-                return "JA";
-            case "Korean":
-                return "KO";
-            case "Lithuanian":
-                return "LT";
-            case "Latvian":
-                return "LV";
-            case "Norwegian":
-                return "NB";
-            case "Dutch":
-                return "NL";
-            case "Polish":
-                return "PL";
-            case "Portuguese":
-                return "PT-PT";
-            case "Romanian":
-                return "RO";
-            case "Russian":
-                return "RU";
-            case "Slovak":
-                return "SK";
-            case "Slovenian":
-                return "SL";
-            case "Swedish":
-                return "SV";
-            case "Turkish":
-                return "TR";
-            case "Ukrainian":
-                return "UK";
-            case "Chinese":
-                return "ZH";
+    public static String translateLanguageToCode(String language) {
 
+        try {
+            for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
+                System.out.println(l.getName());
+                if (l.getName().toLowerCase().startsWith(language.toLowerCase())) {
+                    return l.getCode();
+                }
+            }
+        } catch (DeepLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        System.out.println("Invalid language");
-        return "";
+        return null;
+
     }
 
-    public static String translateCodeToLanguage(String code){
-        code = code.toUpperCase();
-        switch(code){
-            case "BG":
-                return "Bulgarian";
-            case "CS":
-                return "Czech";
-            case "DA":
-                return "Danish";
-            case "DE":
-                return "German";
-            case "EL":
-                return "Greek";
-            case "EN":
-                return "English";
-            case "EN-GB":
-                return "English";
-            case "EN-US":
-                return "English";
-            case "ES":
-                return "Spanish";
-            case "ET":
-                return "Estonian";
-            case "FI":
-                return "Finnish";
-            case "FR":
-                return "French";
-            case "HU":
-                return "Hungarian";
-            case "ID":
-                return "Indonesian";
-            case "IT":
-                return "Italian";
-            case "JA":
-                return "Japanese";
-            case "KO":
-                return "Korean";
-            case "LT":
-                return "Lithuanian";
-            case "LV":
-                return "Latvian";
-            case "NB":
-                return "Norwegian";
-            case "NL":
-                return "Dutch";
-            case "PL":
-                return "Polish";
-            case "PT":
-                return "Portuguese";
-            case "PT-PT":
-                return "Portuguese";
-            case "PT-BR":
-                return "Portuguese";
-            case "RO":
-                return "Romanian";
-            case "RU":
-                return "Russian";
-            case "SK":
-                return "Slovak";
-            case "SL":
-                return "Slovenian";
-            case "SV":
-                return "Swedish";
-            case "TR":
-                return "Turkish";
-            case "UK":
-                return "Ukrainian";
-            case "ZH":
-                return "Chinese";
+    public static String translateCodeToLanguage(String code) {
 
+        try {
+            for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {
+
+                if (l.getCode().toLowerCase().equals(code.toLowerCase())) {
+                    return l.getName();
+                }
+            }
+        } catch (DeepLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        System.out.println("Invalid Code "+code);
-        return "";
+        return null;
     }
 }

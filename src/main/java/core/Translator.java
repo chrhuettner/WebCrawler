@@ -10,6 +10,7 @@ public class Translator {
     static {
         String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
         translator = new com.deepl.api.Translator(authKey);
+
     }
 
     public static TextResult translate(String text, String sourceLanguage, String targetLanguage) {
@@ -38,5 +39,9 @@ public class Translator {
             e.printStackTrace();
         }
         return limit;
+    }
+
+    public static com.deepl.api.Translator getTranslator() {
+        return translator;
     }
 }

@@ -14,7 +14,6 @@ public class WebsiteLink {
         this.depth = depth;
         this.isBroken = isBroken;
 
-
     }
 
     public String getUrl() {

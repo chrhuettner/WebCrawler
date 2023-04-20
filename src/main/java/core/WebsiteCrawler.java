@@ -41,13 +41,13 @@ public class WebsiteCrawler {
         try {
             links.add(URL);
             Document document = Jsoup.connect(URL).get();
-            WebsiteLink link = new WebsiteLink(URL, extractHeadings(document,targetLanguage), depth, false);
+            WebsiteLink link = new WebsiteLink(URL, extractHeadings(document, targetLanguage), depth, false);
             webLinks.add(link);
             Elements linksOnPage = document.select("a[href]");
             crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
         } catch (IOException e) {
             handleBrokenWebsite(URL, depth, webLinks);
-          //  System.err.println("For '" + URL + "': " + e.getMessage());
+            //  System.err.println("For '" + URL + "': " + e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class WebsiteCrawler {
         Heading[] headings = new Heading[headingsOnPage.size()];
 
         for (int i = 0; i < headings.length; i++) {
-            headings[i] = new Heading(extractHeadingType(headingsOnPage.get(i).tag().toString()), headingsOnPage.get(i).text(),targetLanguage);
+            headings[i] = new Heading(extractHeadingType(headingsOnPage.get(i).tag().toString()), headingsOnPage.get(i).text(), targetLanguage);
 
         }
         return headings;
