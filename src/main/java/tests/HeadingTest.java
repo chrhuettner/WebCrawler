@@ -1,7 +1,6 @@
 package tests;
 
 import core.Heading;
-import core.Translator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,44 +9,44 @@ import static org.junit.jupiter.api.Assertions.*;
 class HeadingTest {
 
     private Heading heading;
-    private static final String text = "Test";
-    private static final int type = 1;
-    private static final String targetLanguage = "de";
-    private static final String language = "English";
+    private static final String TEXT = "Test";
+    private static final int TYPE = 1;
+    private static final String TARGET_LANGUAGE_CODE_GERMAN = "de";
+    private static final String LANGUAGE_ENGLISH = "English";
 
     @BeforeEach
     void setUp() {
-        heading = new Heading(type, text, targetLanguage);
+        heading = new Heading(TYPE, TEXT, TARGET_LANGUAGE_CODE_GERMAN);
     }
 
     @Test
     void testGetType() {
-        assertEquals(heading.getType(), type);
+        assertEquals(TYPE, heading.getType());
     }
 
     @Test
     void testGetText() {
-        assertEquals(heading.getText(), text);
+        assertEquals(TEXT, heading.getText());
     }
 
     @Test
     void testGetTranslatedHeading() {
-        assertEquals(heading.getTranslatedHeading(), text);
+        assertEquals(TEXT, heading.getTranslatedHeading());
     }
 
     @Test
     void testGetSourceLanguage() {
-        assertEquals(heading.getSourceLanguage(), language);
+        assertEquals(LANGUAGE_ENGLISH, heading.getSourceLanguage());
     }
 
     @Test
     void testGetRepresentation() {
-        assertEquals(heading.getRepresentation(1), "# ->" + text);
+        assertEquals("# ->" + TEXT, heading.getRepresentation(1));
     }
 
     @Test
     void testGetRepresentationNoText() {
-        heading = new Heading(type, "", targetLanguage);
-        assertEquals(heading.getRepresentation(1), "");
+        heading = new Heading(TYPE, "", TARGET_LANGUAGE_CODE_GERMAN);
+        assertEquals("", heading.getRepresentation(1));
     }
 }

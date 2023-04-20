@@ -15,27 +15,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class WebsiteCrawlerTest {
+
     private static WebsiteCrawler crawler;
-    private static final String url = "https://orf.at";
-    private static final String wrongURL = "wrongUrl.at";
-    private static final String targetLanguageEn = "en-GB";
-    private static final int amountOfTestLinks = 10;
-    private static final int amountOfHeadingPerLink = 120;
-    private static final int depthCrawl = 0;
+    private static final String URL = "https://orf.at";
+    private static final String WRONG_URL = "wrongUrl.at";
+    private static final String TARGET_LANGUAGE_CODE_ENGLISH = "en-GB";
+    private static final int AMOUNT_OF_TESTLINKS = 10;
+    private static final int AMOUNT_OF_HEADINGS_PER_LINK = 120;
+    private static final int DEPTH = 0;
     private int sumOfHeadings;
     private ArrayList<WebsiteLink> links;
 
-
     @BeforeEach
     void setUp() {
-        crawler = new WebsiteCrawler(url);
+        crawler = new WebsiteCrawler(URL);
     }
 
     private List<WebsiteLink> setUpInsertUniqueHeadingLanguages() {
         List<WebsiteLink> links = new ArrayList<>();
 
-        for (int k = 0; k < amountOfTestLinks; k++) {
-            Heading[] headings = new Heading[amountOfHeadingPerLink];
+        for (int k = 0; k < AMOUNT_OF_TESTLINKS; k++) {
+            Heading[] headings = new Heading[AMOUNT_OF_HEADINGS_PER_LINK];
             for (int i = 0; i < headings.length; i++) {
                 int type = (i % 6) + 1;
 
@@ -86,19 +86,19 @@ class WebsiteCrawlerTest {
 
     @Test
     void testGetUrl() {
-        assertEquals(url, crawler.getUrl());
+        assertEquals(URL, crawler.getUrl());
     }
 
     @Test
     void testCrawl() {
-        List<WebsiteLink> links = crawler.crawl(1, targetLanguageEn);
+        List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
         assertTrue(!links.isEmpty());
     }
 
     @Test
     void testBrokenLink() {
-        crawler = new WebsiteCrawler(wrongURL);
-        List<WebsiteLink> links = crawler.crawl(1, targetLanguageEn);
+        crawler = new WebsiteCrawler(WRONG_URL);
+        List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
         assertTrue(links.size() == 1);
         assertTrue(links.get(0).isBroken());
     }
@@ -115,20 +115,20 @@ class WebsiteCrawlerTest {
         for (int i = 1; i < 7; i++) {
             String key = "testSourceLanguage" + i;
             assertTrue(detectedLanguages.containsKey(key));
-            assertEquals(detectedLanguages.get(key), (amountOfTestLinks * amountOfHeadingPerLink) / 6);
+            assertEquals((AMOUNT_OF_TESTLINKS * AMOUNT_OF_HEADINGS_PER_LINK) / 6, detectedLanguages.get(key));
         }
     }
 
     @Test
-    void testGetSortedLanguages() {
+    void testGetLanguagesSortedByRatio() {
         HashMap<String, Integer> detectedLanguages = setUpGetSortedLanguages();
-        ArrayList<Language> sortedLanguages = crawler.getSortedLanguages(detectedLanguages, sumOfHeadings);
+        ArrayList<Language> sortedLanguages = crawler.getLanguagesSortedByRatio(detectedLanguages, sumOfHeadings);
 
-        assertEquals(sortedLanguages.get(0).getName(), "language5");
-        assertEquals(sortedLanguages.get(1).getName(), "language3");
-        assertEquals(sortedLanguages.get(2).getName(), "language1");
-        assertEquals(sortedLanguages.get(3).getName(), "language2");
-        assertEquals(sortedLanguages.get(4).getName(), "language4");
+        assertEquals("language5", sortedLanguages.get(0).getName());
+        assertEquals("language3", sortedLanguages.get(1).getName());
+        assertEquals("language1", sortedLanguages.get(2).getName());
+        assertEquals("language2", sortedLanguages.get(3).getName());
+        assertEquals("language4", sortedLanguages.get(4).getName());
     }
 
     @Test
@@ -141,11 +141,11 @@ class WebsiteCrawlerTest {
 
     @Test
     void testCreateCrawlRepresentation() {
-        String representation = crawler.createCrawlRepresentation(depthCrawl, "en-GB");
+        String representation = crawler.createCrawlRepresentation(DEPTH, TARGET_LANGUAGE_CODE_ENGLISH);
 
-        assertTrue(representation.startsWith("input: <a>" + url));
+        assertTrue(representation.startsWith("input: <a>" + URL));
         String[] representationLines = representation.split(System.lineSeparator());
-        assertTrue(representationLines[1].startsWith("<br>depth: " + depthCrawl));
+        assertTrue(representationLines[1].startsWith("<br>depth: " + DEPTH));
         assertTrue(representationLines[2].startsWith("<br>source languages:"));
         assertTrue(representationLines[3].startsWith("<br>target language: English"));
         assertTrue(representationLines[4].startsWith("<br>summary:"));

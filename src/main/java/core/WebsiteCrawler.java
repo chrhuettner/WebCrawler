@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class WebsiteCrawler {
+
     private String url;
     private HashSet<String> links;
-
     private String representation;
-
 
     public WebsiteCrawler(String url) {
         this.url = url;
@@ -87,7 +86,7 @@ public class WebsiteCrawler {
         return headings;
     }
 
-    public ArrayList<Language> getSortedLanguages(HashMap<String, Integer> detectedLanguages, int headingCount) {
+    public ArrayList<Language> getLanguagesSortedByRatio(HashMap<String, Integer> detectedLanguages, int headingCount) {
         ArrayList<Language> sortedLanguages = new ArrayList<>();
         for (String language : detectedLanguages.keySet()) {
             double ratio = (double) detectedLanguages.get(language) / (double) headingCount;
@@ -102,7 +101,7 @@ public class WebsiteCrawler {
         HashMap<String, Integer> detectedLanguages = new HashMap<>();
         int headingCount = insertUniqueHeadingLanguages(crawledLinks, detectedLanguages);
         String languageRepresentation = "";
-        ArrayList<Language> sortedLanguages = getSortedLanguages(detectedLanguages, headingCount);
+        ArrayList<Language> sortedLanguages = getLanguagesSortedByRatio(detectedLanguages, headingCount);
 
         for (Language language : sortedLanguages) {
             if (languageRepresentation.isEmpty()) {

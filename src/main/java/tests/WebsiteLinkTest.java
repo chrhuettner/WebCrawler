@@ -22,14 +22,14 @@ class WebsiteLinkTest {
     private Heading heading2;
     private Heading[] headingArray;
     private int depth;
-    private static final String LanguageEnglish = "English";
-    private static final String LanguageCodeGerman = "de";
+    private static final String LANGUAGE_ENGLISH = "English";
+    private static final String LANGUAGE_CODE_GERMAN = "de";
 
     @BeforeEach
     void setUp() {
         url = "https://orf.at";
-        heading1 = new Heading(1, "Test", LanguageCodeGerman);
-        heading2 = new Heading(2, "again", LanguageCodeGerman);
+        heading1 = new Heading(1, "Test", LANGUAGE_CODE_GERMAN);
+        heading2 = new Heading(2, "again", LANGUAGE_CODE_GERMAN);
         headingArray = new Heading[2];
         headingArray[0] = heading1;
         headingArray[1] = heading2;
@@ -39,54 +39,52 @@ class WebsiteLinkTest {
 
     @Test
     void testGetUrl() {
-        assertEquals(websiteLink.getUrl(), url);
+        assertEquals(url, websiteLink.getUrl());
     }
 
     @Test
     void testGetHeadings() {
-        assertEquals(websiteLink.getHeadings(), headingArray);
+        assertEquals(headingArray, websiteLink.getHeadings());
     }
 
     @Test
     void testGetDepth() {
-        assertEquals(websiteLink.getDepth(), depth);
+        assertEquals(depth, websiteLink.getDepth());
     }
 
     @Test
     void testIsBroken() {
-        assertEquals(websiteLink.isBroken(), false);
+        assertEquals(false, websiteLink.isBroken());
     }
 
     @Test
     void testGetRepresentation() {
-        assertEquals(websiteLink.getRepresentation(true), "<br>--> link to <a>https://orf.at</a>" +
-                System.lineSeparator() + "# ->Test" + System.lineSeparator() +
-                "## ->wieder" + System.lineSeparator() + System.lineSeparator());
+        assertEquals("<br>--> link to <a>https://orf.at</a>" + System.lineSeparator() + "# ->Test" + System.lineSeparator() + "## ->wieder" + System.lineSeparator() + System.lineSeparator(),
+                websiteLink.getRepresentation(true));
     }
 
     @Test
-    void testGetRepresentationWithBrokenLink() {
+    void testGetRepresentationBrokenLink() {
         websiteLink.setBroken(true);
-        assertEquals(websiteLink.getRepresentation(true), "<br>--> broken link to <a>" + url + "</a>" +
-                System.lineSeparator() + "# ->Test" + System.lineSeparator() +
-                "## ->wieder" + System.lineSeparator() + System.lineSeparator());
+        assertEquals("<br>--> broken link to <a>" + url + "</a>" + System.lineSeparator() + "# ->Test" + System.lineSeparator() + "## ->wieder" + System.lineSeparator() + System.lineSeparator(),
+                websiteLink.getRepresentation(true));
     }
 
     @Test
-    void testGetRepresentationWithNotDisplaying() {
+    void testGetRepresentationNotDisplaying() {
         websiteLink.setBroken(false);
-        assertEquals(websiteLink.getRepresentation(false), "# ->Test" + System.lineSeparator() +
-                "## ->wieder" + System.lineSeparator() + System.lineSeparator());
+        assertEquals("# ->Test" + System.lineSeparator() + "## ->wieder" + System.lineSeparator() + System.lineSeparator(),
+                websiteLink.getRepresentation(false));
     }
 
     @Test
     void testGetRepresentationNoText() {
-        heading1 = new Heading(1, "", LanguageCodeGerman);
-        heading2 = new Heading(2, "", LanguageCodeGerman);
+        heading1 = new Heading(1, "", LANGUAGE_CODE_GERMAN);
+        heading2 = new Heading(2, "", LANGUAGE_CODE_GERMAN);
         headingArray[0] = heading1;
         headingArray[1] = heading2;
         websiteLink = new WebsiteLink(url, headingArray, depth, false);
-        assertEquals(websiteLink.getRepresentation(false), "" + System.lineSeparator());
+        assertEquals("" + System.lineSeparator(), websiteLink.getRepresentation(false));
     }
 
     @Test
@@ -94,8 +92,8 @@ class WebsiteLinkTest {
         setUpInsertUniqueLanguages();
         Map<String, Integer> languages = new HashMap<>();
         websiteLink.insertUniqueLanguages(languages);
-        assertTrue(languages.containsKey(LanguageEnglish));
-        assertEquals(2, languages.get(LanguageEnglish));
+        assertTrue(languages.containsKey(LANGUAGE_ENGLISH));
+        assertEquals(2, languages.get(LANGUAGE_ENGLISH));
     }
 
     private void setUpInsertUniqueLanguages() {
