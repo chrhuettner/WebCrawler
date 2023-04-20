@@ -92,6 +92,7 @@ class WebsiteCrawlerTest {
     @Test
     void testCrawl() {
         List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
+
         assertTrue(!links.isEmpty());
     }
 
@@ -99,6 +100,7 @@ class WebsiteCrawlerTest {
     void testBrokenLink() {
         crawler = new WebsiteCrawler(WRONG_URL);
         List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
+
         assertTrue(links.size() == 1);
         assertTrue(links.get(0).isBroken());
     }

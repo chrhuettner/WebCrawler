@@ -18,6 +18,7 @@ class TranslatorTest {
     @Test
     void testTranslateEmpty() throws DeepLException, InterruptedException {
         translation = Translator.translate("", null, "");
+
         assertEquals("", translation.getText(), "");
         assertEquals(TARGET_LANGUAGE_CODE_ENGLISH, translation.getDetectedSourceLanguage());
     }
@@ -25,6 +26,7 @@ class TranslatorTest {
     @Test
     void testTranslateNotEmpty() throws DeepLException, InterruptedException {
         translation = Translator.translate(GERMAN_TEXT, SOURCE_LANGUAGE_CODE_GERMAN, TARGET_LANGUAGE_CODE_ENGLISH);
+
         assertEquals(ENGLISH_TEXT, translation.getText());
         assertEquals(SOURCE_LANGUAGE_CODE_GERMAN, translation.getDetectedSourceLanguage());
     }
@@ -37,6 +39,7 @@ class TranslatorTest {
     @Test
     public void testGetTranslator() {
         com.deepl.api.Translator translator = Translator.getTranslator();
+
         assertNotNull(translator);
     }
 }

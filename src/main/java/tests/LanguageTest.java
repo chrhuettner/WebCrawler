@@ -30,6 +30,7 @@ class LanguageTest {
     @Test
     void testSetRatio() {
         language.setRatio(RATIO + RATIO_MODIFIER);
+
         assertEquals(RATIO + RATIO_MODIFIER, language.getRatio());
     }
 
@@ -41,24 +42,28 @@ class LanguageTest {
     @Test
     void testSetName() {
         language.setName(LANGUAGE_ENGLISH + NAME_MODIFIER);
+
         assertEquals(LANGUAGE_ENGLISH + NAME_MODIFIER, language.getName());
     }
 
     @Test
     void testCompareToSmaller() {
         Language languageWithSmallerRatio = new Language(RATIO / 2.0, "");
+
         assertEquals(-1, language.compareTo(languageWithSmallerRatio));
     }
 
     @Test
     void testCompareToGreater() {
         Language languageWithGreaterRatio = new Language(RATIO * 2.0, "");
+
         assertEquals(1, language.compareTo(languageWithGreaterRatio));
     }
 
     @Test
     void testCompareToEqual() {
         Language languageWithEqualRatio = new Language(RATIO, "");
+
         assertEquals(0, language.compareTo(languageWithEqualRatio));
     }
 
@@ -73,6 +78,7 @@ class LanguageTest {
         try {
             method = Language.class.getDeclaredMethod("trimRatio", int.class);
             method.setAccessible(true);
+
             assertEquals(method.invoke(language, 2), trimRatioString(language.getRatio(), 2));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();

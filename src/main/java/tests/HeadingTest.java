@@ -47,6 +47,7 @@ class HeadingTest {
     @Test
     void testGetRepresentationNoText() {
         heading = new Heading(TYPE, "", TARGET_LANGUAGE_CODE_GERMAN);
+
         assertEquals("", heading.getRepresentation(1));
     }
 }
