@@ -98,7 +98,7 @@ class LanguageTest {
     }
 
     @Test
-    void testTranslateCodeToLanguage() {
+    void testTranslateLanguageToCode() {
         assertEquals("en-GB", Language.translateLanguageToCode("English"));
         assertEquals("de", Language.translateLanguageToCode("German"));
     }

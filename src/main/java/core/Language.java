@@ -70,6 +70,7 @@ public class Language implements Comparable<Language> {
         return null;
     }
 
+    // This method translates the ISO 3166-1 Language-Code (e.g. 'en-GB', 'pt-BR')(target language) to a language name
     public static String translateTargetCodeToLanguage(String code) {
         try {
             for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
@@ -83,6 +84,7 @@ public class Language implements Comparable<Language> {
         return null;
     }
 
+    // This method translates the ISO 639-1 Language-Code (e.g. 'en', 'pt')(source language) to a language name
     public static String translateSourceCodeToLanguage(String code) {
         try {
             for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {
