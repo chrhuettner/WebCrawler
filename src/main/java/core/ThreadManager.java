@@ -25,6 +25,7 @@ public class ThreadManager {
         }
     }
 
+    //Keep in mind that threads can only be started once!
     public String crawlAllWebsitesInParallel() {
         for (int i = 0; i < crawlThreads.length; i++) {
             crawlThreads[i].start();
