@@ -4,7 +4,6 @@ import com.deepl.api.DeepLException;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -17,20 +16,43 @@ public class Main {
     public static void promptInput() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("URL: (Make sure to insert the WHOLE url)");
+        System.out.println("URL: (Seperated by spaces)");
         String url = scanner.nextLine();
 
-        System.out.println("Depth: (Greater than 2 takes very long)");
-        int depth = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("Depth: (Seperated by spaces)");
+        String depth = scanner.nextLine();
 
-        System.out.println("Language: ");
+        System.out.println("Language: (Seperated by spaces)");
         String targetLanguage = scanner.nextLine();
 
         System.out.println("Output Path and file name: (Relative. for example: result.md)");
         String targetPath = scanner.nextLine();
 
-        WebsiteCrawler w = new WebsiteCrawler(url);
-        core.FileWriter.writeToFile(targetPath, w.createCrawlRepresentation(depth, Language.translateLanguageToCode(targetLanguage)));
+        String result = interpretInput(url, depth, targetLanguage);
+        FileWriter.writeToFile(targetPath, result);
+    }
+
+    public static String interpretInput(String url, String depth, String targetLanguage) {
+        String[] websites = url.split(" ");
+        String[] depthStringArray = depth.split(" ");
+        String[] languages = targetLanguage.split(" ");
+
+        int[] depthArray = stringArrayToIntArray(depthStringArray);
+
+        ThreadManager manager = new ThreadManager(websites, depthArray, languages);
+
+        return manager.crawlAllWebsitesInParallel();
+    }
+
+    public static int[] stringArrayToIntArray(String[] array) {
+        int[] parsedValues = new int[array.length];
+        try {
+            for (int i = 0; i < array.length; i++) {
+                parsedValues[i] = Integer.parseInt(array[i]);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return parsedValues;
     }
 }
