@@ -13,10 +13,12 @@ public class WebsiteCrawler {
     private String url;
     private HashSet<String> links;
     private String representation;
+    private Parser parser;
 
-    public WebsiteCrawler(String url) {
+    public WebsiteCrawler(String url, Parser parser) {
         this.url = url;
         links = new HashSet<>();
+        this.parser = parser;
 
     }
 
@@ -41,21 +43,20 @@ public class WebsiteCrawler {
     private void handleURL(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         try {
             links.add(URL);
-
-            Document document = Jsoup.connect(URL).get();
-            WebsiteLink link = new WebsiteLink(URL, extractHeadings(document, targetLanguage), depth, false);
+            parser.connectToWebsite(URL);
+            ArrayList<String> linksOnPage = parser.getElementsThatMatchCssQuery("a[href]");
+            WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
             webLinks.add(link);
 
-            Elements linksOnPage = document.select("a[href]");
             crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
-        } catch (IOException | IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             handleBrokenWebsite(URL, depth, webLinks);
         }
     }
 
-    private void crawlLinks(Elements linksOnPage, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
-        for (Element page : linksOnPage) {
-            getPageLinks(page.attr("abs:href"), depth, maxDepth, webLinks, targetLanguage);
+    private void crawlLinks(ArrayList<String> linksOnPage, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
+        for (String page : linksOnPage) {
+            getPageLinks(parser.extractAttribute(page, "href"), depth, maxDepth, webLinks, targetLanguage);
         }
     }
 
@@ -64,11 +65,13 @@ public class WebsiteCrawler {
         webLinks.add(link);
     }
 
-    private Heading[] extractHeadings(Document document, String targetLanguage) {
-        Elements headingsOnPage = document.select("h1, h2, h3, h4, h5, h6");
-        Heading[] headings = new Heading[headingsOnPage.size()];
+    private Heading[] extractHeadings(String targetLanguage) {
+
+        ArrayList<String> headingTagsOnPage = parser.getTagOfElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
+        ArrayList<String> headingsOnPage = parser.getElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
+        Heading[] headings = new Heading[headingTagsOnPage.size()];
         for (int i = 0; i < headings.length; i++) {
-            headings[i] = new Heading(extractHeadingType(headingsOnPage.get(i).tag().toString()), headingsOnPage.get(i).text(), targetLanguage);
+            headings[i] = new Heading(extractHeadingType(headingTagsOnPage.get(i)), headingsOnPage.get(i), targetLanguage);
         }
         return headings;
     }

@@ -21,9 +21,9 @@ class MainTest {
 
         cleanUpPrompt();
 
-        assertEquals("URL: (Make sure to insert the WHOLE url)", loggedOutput.getOutputLog().get(0));
-        assertEquals("Depth: (Greater than 2 takes very long)", loggedOutput.getOutputLog().get(1));
-        assertEquals("Language: ", loggedOutput.getOutputLog().get(2));
+        assertEquals("URL: (Seperated by spaces)", loggedOutput.getOutputLog().get(0));
+        assertEquals("Depth: (Seperated by spaces)", loggedOutput.getOutputLog().get(1));
+        assertEquals("Language: (Seperated by spaces)", loggedOutput.getOutputLog().get(2));
         assertEquals("Output Path and file name: (Relative. for example: result.md)", loggedOutput.getOutputLog().get(3));
     }
 

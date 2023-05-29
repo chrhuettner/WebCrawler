@@ -1,9 +1,6 @@
 package tests;
 
-import core.Heading;
-import core.Language;
-import core.WebsiteCrawler;
-import core.WebsiteLink;
+import core.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +25,7 @@ class WebsiteCrawlerTest {
 
     @BeforeEach
     void setUp() {
-        crawler = new WebsiteCrawler(URL);
+        crawler = new WebsiteCrawler(URL, new JsoupParser());
     }
 
     private List<WebsiteLink> setUpInsertUniqueHeadingLanguages() {
@@ -98,7 +95,7 @@ class WebsiteCrawlerTest {
 
     @Test
     void testBrokenLink() {
-        crawler = new WebsiteCrawler(WRONG_URL);
+        crawler = new WebsiteCrawler(WRONG_URL, new JsoupParser());
         List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
 
         assertTrue(links.size() == 1);

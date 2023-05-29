@@ -16,7 +16,7 @@ public class CrawlThread extends Thread{
 
     @Override
     public void run() {
-        WebsiteCrawler w = new WebsiteCrawler(url);
+        WebsiteCrawler w = new WebsiteCrawler(url, new JsoupParser());
         result = w.createCrawlRepresentation(depth, Language.translateLanguageToCode(targetLanguage));
         manager.incrementFinishedThreads();
     }

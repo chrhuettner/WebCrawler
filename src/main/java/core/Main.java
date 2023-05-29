@@ -30,6 +30,12 @@ public class Main {
 
         String result = interpretInput(url, depth, targetLanguage);
         FileWriter.writeToFile(targetPath, result);
+
+       /* ThreadManager manager = new ThreadManager(new String[]{"https://orf.at"}, new int[]{1}, new String[]{"German"});
+
+        String representation =  manager.crawlAllWebsitesInParallel();
+        System.out.println(representation);
+        FileWriter.writeToFile("test.md", representation);*/
     }
 
     public static String interpretInput(String url, String depth, String targetLanguage) {
