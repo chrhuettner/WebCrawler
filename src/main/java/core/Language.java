@@ -7,10 +7,16 @@ import java.util.Locale;
 public class Language implements Comparable<Language> {
     private double ratio;
     private String name;
+    private static Log errorLog;
+
+    static{
+        errorLog = Log.getLog();
+    }
 
     public Language(double ratio, String name) {
         this.ratio = ratio;
         this.name = name;
+
     }
 
     public double getRatio() {
@@ -65,6 +71,7 @@ public class Language implements Comparable<Language> {
                 }
             }
         } catch (DeepLException | InterruptedException e) {
+            errorLog.logError("Translation Error occurred. Tried to translate "+language+" to Code.");
             e.printStackTrace();
         }
         return null;
@@ -79,6 +86,7 @@ public class Language implements Comparable<Language> {
                 }
             }
         } catch (DeepLException | InterruptedException e) {
+            errorLog.logError("Translation Error occurred. Tried to translate target "+code+" to Language.");
             e.printStackTrace();
         }
         return null;
@@ -93,6 +101,7 @@ public class Language implements Comparable<Language> {
                 }
             }
         } catch (DeepLException | InterruptedException e) {
+            errorLog.logError("Translation Error occurred. Tried to translate source "+code+" to Language.");
             e.printStackTrace();
         }
         return null;

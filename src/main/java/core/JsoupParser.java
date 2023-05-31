@@ -10,7 +10,12 @@ import java.util.ArrayList;
 
 public class JsoupParser implements Parser {
 
-    Document document;
+    private Document document;
+    private Log errorLog;
+
+    public JsoupParser(){
+        this.errorLog = Log.getLog();
+    }
 
 
     @Override
@@ -42,6 +47,7 @@ public class JsoupParser implements Parser {
 
     private void checkDocument() {
         if (document == null) {
+            errorLog.logError("No Website has been accessed yet. connectToWebsite has to be called first");
             throw new RuntimeException("No Website has been accessed yet. connectToWebsite has to be called first");
         }
     }
@@ -51,6 +57,7 @@ public class JsoupParser implements Parser {
         try {
             this.document = Jsoup.connect(url).get();
         } catch (IOException e) {
+            errorLog.logError("Invalid URL detected: "+url);
             e.printStackTrace();
         }
     }

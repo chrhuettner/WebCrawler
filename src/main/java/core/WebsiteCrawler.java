@@ -14,11 +14,13 @@ public class WebsiteCrawler {
     private HashSet<String> links;
     private String representation;
     private Parser parser;
+    private Log errorLog;
 
     public WebsiteCrawler(String url, Parser parser) {
         this.url = url;
         links = new HashSet<>();
         this.parser = parser;
+        this.errorLog = Log.getLog();
 
     }
 
@@ -41,28 +43,18 @@ public class WebsiteCrawler {
     }
 
     private void handleURL(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
-        try {
-            links.add(URL);
-            parser.connectToWebsite(URL);
-            ArrayList<String> linksOnPage = parser.getLinksOnWebsite();
-            WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
-            webLinks.add(link);
-
-            crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
-        } catch (IllegalArgumentException ex) {
-            handleBrokenWebsite(URL, depth, webLinks);
-        }
+        links.add(URL);
+        parser.connectToWebsite(URL);
+        ArrayList<String> linksOnPage = parser.getLinksOnWebsite();
+        WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
+        webLinks.add(link);
+        crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
     }
 
     private void crawlLinks(ArrayList<String> linksOnPage, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         for (String link : linksOnPage) {
             getPageLinks(link, depth, maxDepth, webLinks, targetLanguage);
         }
-    }
-
-    private void handleBrokenWebsite(String URL, int depth, List<WebsiteLink> webLinks) {
-        WebsiteLink link = new WebsiteLink(URL, new Heading[]{}, depth, true);
-        webLinks.add(link);
     }
 
     private Heading[] extractHeadings(String targetLanguage) {
