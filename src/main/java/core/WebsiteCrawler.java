@@ -44,7 +44,7 @@ public class WebsiteCrawler {
         try {
             links.add(URL);
             parser.connectToWebsite(URL);
-            ArrayList<String> linksOnPage = parser.getElementsThatMatchCssQuery("a[href]");
+            ArrayList<String> linksOnPage = parser.getLinksOnWebsite();
             WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
             webLinks.add(link);
 
@@ -55,8 +55,8 @@ public class WebsiteCrawler {
     }
 
     private void crawlLinks(ArrayList<String> linksOnPage, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
-        for (String page : linksOnPage) {
-            getPageLinks(parser.extractAttribute(page, "href"), depth, maxDepth, webLinks, targetLanguage);
+        for (String link : linksOnPage) {
+            getPageLinks(link, depth, maxDepth, webLinks, targetLanguage);
         }
     }
 

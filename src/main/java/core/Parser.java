@@ -10,6 +10,6 @@ public interface Parser {
 
     public abstract void connectToWebsite(String url);
 
-    public abstract String extractAttribute(String line, String attribute);
+    public abstract ArrayList<String> getLinksOnWebsite();
 
 }

@@ -56,15 +56,15 @@ public class JsoupParser implements Parser {
     }
 
     @Override
-    public String extractAttribute(String line, String attribute) {
-        int occurrence = line.indexOf(attribute);
-        if (occurrence == -1) {
-            return null;
+    public ArrayList<String> getLinksOnWebsite() {
+        checkDocument();
+        Elements elements = document.select("a[href]");
+
+        ArrayList<String> links = new ArrayList<>(elements.size());
+
+        for(Element linkElement:elements){
+            links.add(linkElement.attr("abs:href"));
         }
-
-        int endIndex = line.indexOf("\"", occurrence + attribute.length() + 2);
-
-        return line.substring(occurrence + 2, endIndex);
-
+        return links;
     }
 }
