@@ -16,6 +16,8 @@ public class WebsiteCrawler {
 
     private static String unknownTargetLanguageRepresentation = "unknown Target Language";
 
+    private static int unknownHeadingType = 1;
+
     public WebsiteCrawler(String url, Parser parser, Translator translator) {
         this.url = url;
         links = new HashSet<>();
@@ -74,13 +76,19 @@ public class WebsiteCrawler {
         ArrayList<String> headingsOnPage = parser.getElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
         Heading[] headings = new Heading[headingTagsOnPage.size()];
         for (int i = 0; i < headings.length; i++) {
-            headings[i] = new Heading(extractHeadingType(headingTagsOnPage.get(i)), headingsOnPage.get(i), targetLanguage, Translator.getTranslator());
+            int headingType = extractHeadingType(headingTagsOnPage.get(i)).orElse(unknownHeadingType);
+            headings[i] = new Heading(headingType, headingsOnPage.get(i), targetLanguage, Translator.getTranslator());
         }
         return headings;
     }
 
-    private int extractHeadingType(String tag) {
-        return Integer.parseInt(tag.substring(1, 2));
+    private Optional<Integer> extractHeadingType(String tag) {
+        try {
+            return Optional.of(Integer.parseInt(tag.substring(1, 2)));
+        }catch (NumberFormatException e){
+            errorLog.logError("Could not extract heading type from "+tag);
+        }
+        return Optional.empty();
     }
 
     public int insertUniqueHeadingLanguages(List<WebsiteLink> crawledLinks, HashMap<String, Integer> detectedLanguages) {
