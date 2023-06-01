@@ -9,14 +9,15 @@ public class ThreadOrganizer {
     private Log errorLog;
 
     public ThreadOrganizer(String[] urls, int[] depths, String[] targetLanguages) {
-        if (!((urls.length == depths.length) && (depths.length == targetLanguages.length))) {
-            throw new RuntimeException("Invalid parameters for Threadmanager. Expected equal size for all arrays.");
-        }
-        threadSynchronizeToken = "";
-        this.finishedThreads = 0;
-        createCrawlThreads(urls, depths, targetLanguages);
-
         errorLog = Log.getLog();
+
+        if (!((urls.length == depths.length) && (depths.length == targetLanguages.length))) {
+            errorLog.logError("Invalid parameters for Threadmanager. Expected equal size for all arrays.");
+        }else{
+            threadSynchronizeToken = "";
+            this.finishedThreads = 0;
+            createCrawlThreads(urls, depths, targetLanguages);
+        }
     }
 
     private void createCrawlThreads(String[] urls, int[] depths, String[] targetLanguages) {
@@ -29,6 +30,9 @@ public class ThreadOrganizer {
 
     //Keep in mind that threads can only be started once!
     public String crawlAllWebsitesInParallel() {
+        if(crawlThreads==null){
+            return "";
+        }
         for (int i = 0; i < crawlThreads.length; i++) {
             crawlThreads[i].start();
         }

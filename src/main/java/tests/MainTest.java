@@ -27,6 +27,11 @@ class MainTest {
         assertEquals("Output Path and file name: (Relative. for example: result.md)", loggedOutput.getOutputLog().get(3));
     }
 
+    @Test
+    void teststringArrayToIntArray(){
+        assertEquals(0, Main.stringArrayToIntArray(new String[]{"d","e"})[0]);
+    }
+
     private void setUpPrompt(){
         InputStream inputPromptURL = new ByteArrayInputStream(("https://orf.at/" + System.lineSeparator() + "0" + System.lineSeparator() + "English" + System.lineSeparator() + "outTest2.md").getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -43,4 +48,6 @@ class MainTest {
         System.setOut(oldOut);
         System.setIn(oldIn);
     }
+
+
 }

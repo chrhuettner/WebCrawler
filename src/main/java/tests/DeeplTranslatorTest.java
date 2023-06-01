@@ -1,6 +1,8 @@
 package tests;
 
 import com.deepl.api.DeepLException;
+import io.Log;
+import org.junit.jupiter.api.BeforeEach;
 import translator.DeeplTranslator;
 import translator.Translator;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,36 +20,47 @@ class DeeplTranslatorTest {
     private static final String SOURCE_LANGUAGE_CODE_GERMAN = "de";
     private static final String TARGET_LANGUAGE_CODE_ENGLISH = "en-GB";
     private static final String nullRepresentation = "NULL";
-    private Translator translator;
+    private static Translator translator;
 
-    @BeforeAll
+    @BeforeEach
     void setUpTests(){
         translator = Translator.getTranslator();
+        Log.getLog().getLoggedErrors().clear();
     }
 
     @Test
-    void testTranslateEmpty() throws DeepLException, InterruptedException {
-        Optional<String> translateLineToLanguage = translator.translateLineToLanguage("", null, "");
-
-        translation = translateLineToLanguage.orElse(nullRepresentation);
-
-        assertEquals("", translation, "");
-        assertEquals(TARGET_LANGUAGE_CODE_ENGLISH, translator.getSourceLanguageOfLastTranslation());
+    void testTranslateEmpty() {
+        assertTrue(translator.translateLineToLanguage("test", "test", "test").isEmpty());
     }
 
     @Test
-    void testTranslateNotEmpty() throws DeepLException, InterruptedException {
+    void testTranslateNotEmpty() {
         Optional<String> translateLineResult = translator.translateLineToLanguage(GERMAN_TEXT, SOURCE_LANGUAGE_CODE_GERMAN, TARGET_LANGUAGE_CODE_ENGLISH);
 
         translation = translateLineResult.orElse(nullRepresentation);
 
         assertEquals(ENGLISH_TEXT, translation);
-        assertEquals(SOURCE_LANGUAGE_CODE_GERMAN, translator.getSourceLanguageOfLastTranslation());
+        assertEquals(SOURCE_LANGUAGE_CODE_GERMAN, translator.getSourceLanguageOfLastTranslation().get());
     }
 
     @Test
     void testTranslateWrongLanguage() {
         assertThrows(IllegalArgumentException.class, () -> translator.translateLineToLanguage(ENGLISH_TEXT, "en", "en"));
+    }
+
+    @Test
+    void testGetSourceLanguageOfLastTranslation(){
+        assertTrue(translator.getSourceLanguageOfLastTranslation().isEmpty());
+    }
+
+    @Test
+    void testTranslateSourceCodeToLanguage(){
+        assertTrue(translator.translateSourceCodeToLanguage("test").isEmpty());
+    }
+
+    @Test
+    void testTranslateTargetCodeToLanguage(){
+        assertTrue(translator.translateTargetCodeToLanguage("test").isEmpty());
     }
 
 }

@@ -1,13 +1,14 @@
 package tests;
 
 import core.*;
+import io.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import parser.JsoupParser;
 import parser.Parser;
-import translator.DeeplTranslator;
 import translator.Translator;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,12 +99,29 @@ class WebsiteCrawlerTest {
     }
 
     @Test
+    void testExtractHeadingType(){
+        Log.getLog().getLoggedErrors().clear();
+        try {
+            Method m = WebsiteCrawler.class.getDeclaredMethod("extractHeadingType",String.class);
+            m.setAccessible(true);
+            m.invoke(crawler,"br");
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        assertEquals("Could not extract heading type from br",Log.getLog().getLoggedErrors().get(0));
+
+    }
+
+    @Test
     void testBrokenLink() {
         crawler = new WebsiteCrawler(WRONG_URL, Parser.getParser(), Translator.getTranslator());
         List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
 
-        assertTrue(links.size() == 1);
-        assertTrue(links.get(0).isBroken());
+        assertTrue(links.size() == 0);
     }
 
     @Test

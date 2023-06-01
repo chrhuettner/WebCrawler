@@ -43,5 +43,7 @@ public class Log {
         }
     }
 
-
+    public ArrayList<String> getLoggedErrors() {
+        return loggedErrors;
+    }
 }
