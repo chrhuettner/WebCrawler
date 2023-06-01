@@ -7,37 +7,20 @@ import io.Log;
 import java.util.Optional;
 
 public class DeeplTranslator extends Translator {
-    private static com.deepl.api.Translator translator;
+    private com.deepl.api.Translator translator;
     private TextResult lastTranslation;
-
-    static {
-        String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
-        translator = new com.deepl.api.Translator(authKey);
-    }
+    private static final String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
 
     private Log errorLog;
 
     public DeeplTranslator(){
         this.errorLog = Log.getLog();
+        translator = new com.deepl.api.Translator(authKey);
     }
 
     // We have a limit budget of 500.000 characters per month, so be careful with depth when you call this method
-    /*public static TextResult translate(String text, String sourceLanguage, String targetLanguage) throws DeepLException, InterruptedException, IllegalArgumentException {
-        TextResult result;
-        if (text.isEmpty()) {
-            return new TextResult("", "en-GB");
-        }
-        result = translator.translateText(text, sourceLanguage, targetLanguage);
-        return result;
-    }*/
-
-    /*public static com.deepl.api.Translator getTranslator() {
-        return translator;
-    }*/
-
     @Override
     public Optional<String> translateLineToLanguage(String line, String sourceLanguage, String targetLanguage) {
-
         if (line.isEmpty()) {
             lastTranslation = new TextResult("", "en-GB");
             return Optional.of(lastTranslation.getText());

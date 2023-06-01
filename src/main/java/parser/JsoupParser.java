@@ -14,7 +14,7 @@ public class JsoupParser extends Parser {
     private Document document;
     private Log errorLog;
 
-    public JsoupParser() {
+    protected JsoupParser() {
         this.errorLog = Log.getLog();
     }
 

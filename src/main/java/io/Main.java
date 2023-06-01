@@ -1,6 +1,8 @@
 package io;
 
-import core.ThreadManager;
+import core.ThreadOrganizer;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -9,7 +11,7 @@ public class Main {
     }
 
     public static void promptInput() {
-       /* Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("URL: (Seperated by spaces)");
         String url = scanner.nextLine();
@@ -25,14 +27,14 @@ public class Main {
 
         String result = interpretInput(url, depth, targetLanguage);
         String resultWithErrors = result+Log.getLog().getErrorsAsString();
-        FileWriter.writeToFile(targetPath, resultWithErrors);*/
-
-        ThreadManager manager = new ThreadManager(new String[]{"https://orf.at"}, new int[]{1}, new String[]{"German"});
+        FileWriter.writeToFile(targetPath, resultWithErrors);
+/*
+        ThreadOrganizer manager = new ThreadOrganizer(new String[]{"https://orf.at"}, new int[]{1}, new String[]{"German"});
 
         String representation = manager.crawlAllWebsitesInParallel();
         System.out.println(representation);
 
-        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+ Log.getLog().getErrorsAsString());
+        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+ Log.getLog().getErrorsAsString());*/
     }
 
     public static String interpretInput(String url, String depth, String targetLanguage) {
@@ -42,7 +44,7 @@ public class Main {
 
         int[] depthArray = stringArrayToIntArray(depthStringArray);
 
-        ThreadManager manager = new ThreadManager(websites, depthArray, languages);
+        ThreadOrganizer manager = new ThreadOrganizer(websites, depthArray, languages);
 
         return manager.crawlAllWebsitesInParallel();
     }

@@ -2,13 +2,13 @@ package core;
 
 import io.Log;
 
-public class ThreadManager {
+public class ThreadOrganizer {
     private CrawlThread[] crawlThreads;
     private int finishedThreads;
     private Object threadSynchronizeToken;
     private Log errorLog;
 
-    public ThreadManager(String[] urls, int[] depths, String[] targetLanguages) {
+    public ThreadOrganizer(String[] urls, int[] depths, String[] targetLanguages) {
         if (!((urls.length == depths.length) && (depths.length == targetLanguages.length))) {
             throw new RuntimeException("Invalid parameters for Threadmanager. Expected equal size for all arrays.");
         }

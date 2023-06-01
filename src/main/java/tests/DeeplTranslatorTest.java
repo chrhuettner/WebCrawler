@@ -22,7 +22,7 @@ class DeeplTranslatorTest {
 
     @BeforeAll
     void setUpTests(){
-        translator = new DeeplTranslator();
+        translator = Translator.getTranslator();
     }
 
     @Test

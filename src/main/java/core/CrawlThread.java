@@ -10,10 +10,10 @@ public class CrawlThread extends Thread{
     private String targetLanguage;
     private String result;
     private int depth;
-    private ThreadManager manager;
+    private ThreadOrganizer manager;
     private Log errorLog;
 
-    public CrawlThread(String url, String targetLanguage, int depth, ThreadManager manager) {
+    public CrawlThread(String url, String targetLanguage, int depth, ThreadOrganizer manager) {
         this.url = url;
         this.targetLanguage = targetLanguage;
         this.depth = depth;
