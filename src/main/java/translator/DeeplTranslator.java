@@ -65,7 +65,6 @@ public class DeeplTranslator extends Translator {
             }
         } catch (DeepLException | InterruptedException e) {
             errorLog.logError("Translation Error occurred. Tried to translate "+language+" to Code.");
-            e.printStackTrace();
         }
         return Optional.empty();
     }
@@ -81,7 +80,6 @@ public class DeeplTranslator extends Translator {
             }
         } catch (DeepLException | InterruptedException e) {
             errorLog.logError("Translation Error occurred. Tried to translate target "+code+" to Language.");
-            e.printStackTrace();
         }
         return Optional.empty();
     }
@@ -97,7 +95,6 @@ public class DeeplTranslator extends Translator {
             }
         } catch (DeepLException | InterruptedException e) {
             errorLog.logError("Translation Error occurred. Tried to translate source "+code+" to Language.");
-            e.printStackTrace();
         }
         return Optional.empty();
     }

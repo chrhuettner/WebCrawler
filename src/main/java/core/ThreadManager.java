@@ -1,9 +1,12 @@
 package core;
 
+import io.Log;
+
 public class ThreadManager {
     private CrawlThread[] crawlThreads;
     private int finishedThreads;
     private Object threadSynchronizeToken;
+    private Log errorLog;
 
     public ThreadManager(String[] urls, int[] depths, String[] targetLanguages) {
         if (!((urls.length == depths.length) && (depths.length == targetLanguages.length))) {
@@ -13,6 +16,7 @@ public class ThreadManager {
         this.finishedThreads = 0;
         createCrawlThreads(urls, depths, targetLanguages);
 
+        errorLog = Log.getLog();
     }
 
     private void createCrawlThreads(String[] urls, int[] depths, String[] targetLanguages) {
@@ -50,7 +54,7 @@ public class ThreadManager {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                errorLog.logError("ThreadManager got interrupted while waiting for Worker Threads to finish");
             }
         }
     }

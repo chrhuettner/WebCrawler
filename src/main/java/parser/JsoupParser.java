@@ -58,10 +58,8 @@ public class JsoupParser extends Parser {
             return true;
         } catch (IOException e) {
             errorLog.logError("Parser couldn't connect to " + url);
-            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             errorLog.logError("Parser detected invalid URL: " + url);
-            e.printStackTrace();
         }
         return false;
     }
