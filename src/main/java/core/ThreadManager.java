@@ -5,8 +5,6 @@ public class ThreadManager {
     private int finishedThreads;
     private Object threadSynchronizeToken;
 
-    private static final String websiteSeparationString = "<----------------------------->";
-
     public ThreadManager(String[] urls, int[] depths, String[] targetLanguages) {
         if (!((urls.length == depths.length) && (depths.length == targetLanguages.length))) {
             throw new RuntimeException("Invalid parameters for Threadmanager. Expected equal size for all arrays.");
@@ -37,8 +35,7 @@ public class ThreadManager {
     private String mergeCrawlResults() {
         String mergedRepresentation = "";
         for (int i = 0; i < crawlThreads.length; i++) {
-            mergedRepresentation += crawlThreads[i].getResult();
-            mergedRepresentation+= websiteSeparationString+System.lineSeparator();
+            mergedRepresentation += crawlThreads[i].getResult()+System.lineSeparator();
         }
         return mergedRepresentation;
     }

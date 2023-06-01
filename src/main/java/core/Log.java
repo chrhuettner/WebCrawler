@@ -8,6 +8,10 @@ public class Log {
 
     private ArrayList<String> loggedErrors;
 
+    private static String linePrefix = "<br>";
+
+    private static String logPrefix = "<br> --------- ERRORS --------";
+
     private Log(){
         this.loggedErrors = new ArrayList<>();
     }
@@ -29,8 +33,11 @@ public class Log {
     public String getErrorsAsString(){
         synchronized (loggedErrors){
             String representation = "";
-            for(String error: loggedErrors){
-                representation+=error+System.lineSeparator();
+            if(!loggedErrors.isEmpty()) {
+                representation+=logPrefix+System.lineSeparator();
+                for (String error : loggedErrors) {
+                    representation += linePrefix + error + System.lineSeparator();
+                }
             }
             return representation;
         }

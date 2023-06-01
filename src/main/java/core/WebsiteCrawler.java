@@ -44,7 +44,10 @@ public class WebsiteCrawler {
 
     private void handleURL(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         links.add(URL);
-        parser.connectToWebsite(URL);
+        if(!parser.connectToWebsite(URL)){
+            errorLog.logError("Crawler aborted crawling "+URL);
+            return;
+        }
         ArrayList<String> linksOnPage = parser.getLinksOnWebsite();
         WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
         webLinks.add(link);

@@ -16,7 +16,7 @@ public class Main {
     public static void promptInput() {
         Scanner scanner = new Scanner(System.in);
 
-        /*System.out.println("URL: (Seperated by spaces)");
+        System.out.println("URL: (Seperated by spaces)");
         String url = scanner.nextLine();
 
         System.out.println("Depth: (Seperated by spaces)");
@@ -29,14 +29,15 @@ public class Main {
         String targetPath = scanner.nextLine();
 
         String result = interpretInput(url, depth, targetLanguage);
-        FileWriter.writeToFile(targetPath, result);*/
+        String resultWithErrors = result+Log.getLog().getErrorsAsString();
+        FileWriter.writeToFile(targetPath, resultWithErrors);
 
-        ThreadManager manager = new ThreadManager(new String[]{"https://orf.at"}, new int[]{2}, new String[]{"German"});
+        /*ThreadManager manager = new ThreadManager(new String[]{"arf.a"}, new int[]{2}, new String[]{"German"});
 
         String representation =  manager.crawlAllWebsitesInParallel();
         System.out.println(representation);
-        System.out.println(Log.getLog().getErrorsAsString());
-        FileWriter.writeToFile("test.md", representation);
+
+        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+Log.getLog().getErrorsAsString());*/
     }
 
     public static String interpretInput(String url, String depth, String targetLanguage) {

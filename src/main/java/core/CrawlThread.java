@@ -21,6 +21,7 @@ public class CrawlThread extends Thread{
         manager.incrementFinishedThreads();
     }
 
+    //This method should only be called after the Thread finished
     public String getResult() {
         return result;
     }

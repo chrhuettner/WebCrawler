@@ -8,7 +8,7 @@ public interface Parser {
 
     public abstract ArrayList<String> getTagOfElementsThatMatchCssQuery(String attribute);
 
-    public abstract void connectToWebsite(String url);
+    public abstract boolean connectToWebsite(String url);
 
     public abstract ArrayList<String> getLinksOnWebsite();
 
