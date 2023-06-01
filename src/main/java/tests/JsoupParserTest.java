@@ -1,6 +1,5 @@
 package tests;
 
-import core.WebsiteCrawler;
 import io.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,17 +9,17 @@ import parser.Parser;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsoupParserTest {
 
-    JsoupParser jsoupParser;
+    private JsoupParser jsoupParser;
 
     @BeforeEach
     void setUp(){
         jsoupParser = (JsoupParser) Parser.getParser();
+
         try {
             Constructor constructor = JsoupParser.class.getDeclaredConstructor();
             constructor.setAccessible(true);
@@ -39,36 +38,50 @@ class JsoupParserTest {
     }
 
     @Test
-    void getElementsThatMatchCssQuery() {
+    void testGetElementsThatMatchCssQuery() {
         assertTrue(jsoupParser.getElementsThatMatchCssQuery("s").isEmpty());
     }
 
     @Test
-    void getTagOfElementsThatMatchCssQuery() {
+    void testGetTagOfElementsThatMatchCssQuery() {
         assertTrue(jsoupParser.getTagOfElementsThatMatchCssQuery("s").isEmpty());
     }
 
     @Test
     void testConnectToCorrectWebsite() {
         jsoupParser.connectToWebsite("https://orf.at");
+
         assertTrue(Log.getLog().getLoggedErrors().isEmpty());
     }
 
     @Test
     void testConnectToNotAWebsite() {
-        jsoupParser.connectToWebsite("adad");
-        assertEquals("Parser detected invalid URL: adad",Log.getLog().getLoggedErrors().get(0));
+        jsoupParser.connectToWebsite("test");
+
+        assertEquals("Parser detected invalid URL: test",Log.getLog().getLoggedErrors().get(0));
     }
 
     @Test
     void testConnectToNonExistingWebsite() {
         jsoupParser.connectToWebsite("https://hkhkajhajhsjla.com");
+
         assertEquals("Parser couldn't connect to https://hkhkajhajhsjla.com",Log.getLog().getLoggedErrors().get(0));
     }
 
     @Test
     void testCheckDocument(){
-        Log.getLog().getLoggedErrors().clear();
+        setUpCheckDocument();
+
+        assertEquals("No Website has been accessed yet. connectToWebsite has to be called first", Log.getLog().getLoggedErrors().get(0));
+    }
+
+    @Test
+    void testGetLinksOnWebsite() {
+        assertTrue(jsoupParser.getLinksOnWebsite().isEmpty());
+    }
+
+
+    void setUpCheckDocument(){
         try {
             Method m = JsoupParser.class.getDeclaredMethod("checkDocument");
             m.setAccessible(true);
@@ -80,11 +93,5 @@ class JsoupParserTest {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        assertEquals("No Website has been accessed yet. connectToWebsite has to be called first", Log.getLog().getLoggedErrors().get(0));
-    }
-
-    @Test
-    void getLinksOnWebsite() {
-        assertTrue(jsoupParser.getLinksOnWebsite().isEmpty());
     }
 }

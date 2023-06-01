@@ -1,7 +1,6 @@
 package io;
 
 import core.ThreadOrganizer;
-
 import java.util.Scanner;
 
 public class Main {
@@ -28,13 +27,6 @@ public class Main {
         String result = interpretInput(url, depth, targetLanguage);
         String resultWithErrors = result+Log.getLog().getErrorsAsString();
         FileWriter.writeToFile(targetPath, resultWithErrors);
-/*
-        ThreadOrganizer manager = new ThreadOrganizer(new String[]{"https://orf.at"}, new int[]{1}, new String[]{"German"});
-
-        String representation = manager.crawlAllWebsitesInParallel();
-        System.out.println(representation);
-
-        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+ Log.getLog().getErrorsAsString());*/
     }
 
     public static String interpretInput(String url, String depth, String targetLanguage) {

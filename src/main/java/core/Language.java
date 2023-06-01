@@ -1,9 +1,6 @@
 package core;
-
 import io.Log;
-
 import java.util.Locale;
-
 
 public class Language implements Comparable<Language> {
     private double ratio;
@@ -17,7 +14,6 @@ public class Language implements Comparable<Language> {
     public Language(double ratio, String name) {
         this.ratio = ratio;
         this.name = name;
-
     }
 
     public double getRatio() {
@@ -44,6 +40,7 @@ public class Language implements Comparable<Language> {
         if (this.ratio == o.getRatio()) {
             return 0;
         }
+
         Locale l = new Locale("en");
         l.getDisplayLanguage();
         return 1;

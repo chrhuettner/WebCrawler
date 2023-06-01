@@ -112,8 +112,8 @@ class WebsiteCrawlerTest {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        assertEquals("Could not extract heading type from br",Log.getLog().getLoggedErrors().get(0));
 
+        assertEquals("Could not extract heading type from br",Log.getLog().getLoggedErrors().get(0));
     }
 
     @Test
@@ -157,6 +157,7 @@ class WebsiteCrawlerTest {
         setUpGetLanguageRepresentation();
 
         String expectedResult = "testSourceLanguage0 (51.0%), testSourceLanguage2 (30.0%), testSourceLanguage1 (10.0%), testSourceLanguage3 (9.0%)";
+
         assertEquals(expectedResult, crawler.getLanguageRepresentation(links));
     }
 
@@ -166,6 +167,7 @@ class WebsiteCrawlerTest {
 
         assertTrue(representation.startsWith("input: <a>" + URL));
         String[] representationLines = representation.split(System.lineSeparator());
+
         assertTrue(representationLines[1].startsWith("<br>depth: " + DEPTH));
         assertTrue(representationLines[2].startsWith("<br>source languages:"));
         assertTrue(representationLines[3].startsWith("<br>target language: English"));

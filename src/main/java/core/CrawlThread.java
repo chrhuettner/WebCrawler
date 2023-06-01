@@ -26,10 +26,12 @@ public class CrawlThread extends Thread{
         Translator deeplTranslator = Translator.getTranslator();
         WebsiteCrawler w = new WebsiteCrawler(url, Parser.getParser(), deeplTranslator);
         Optional<String> languageCode = deeplTranslator.translateLanguageToCode(targetLanguage);
+
         if(languageCode.isEmpty()){
             errorLog.logError("Unexpected target Language. Could not translate to "+targetLanguage);
             return;
         }
+
         result = w.createCrawlRepresentation(depth, languageCode.get());
         manager.incrementFinishedThreads();
     }

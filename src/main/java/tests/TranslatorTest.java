@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TranslatorTest {
 
     private static Translator translator;
+
     @BeforeAll
     static void setUpTests(){
         translator = Translator.getTranslator();

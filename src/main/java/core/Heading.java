@@ -1,6 +1,4 @@
 package core;
-
-
 import translator.Translator;
 import java.util.Optional;
 
@@ -12,10 +10,8 @@ public class Heading {
     private String translatedText;
     private String targetLanguage;
     private Translator translator;
-
-    private static String unknownLanguageRepresentation = "UNKNOWN LANGUAGE";
-
-    private static String unknownHeadingRepresentation = "UNKNOWN TRANSLATED HEADING";
+    private static String UNKNOWN_LANGUAGE_REPRESENTATION = "UNKNOWN LANGUAGE";
+    private static String UNKNOWN_HEADING_REPRESENTATION = "UNKNOWN TRANSLATED HEADING";
 
     public Heading(int type, String text, String targetLanguage, Translator translator) {
         this.type = type;
@@ -26,10 +22,10 @@ public class Heading {
 
     private void doTranslation() {
         Optional<String> translationResult = translator.translateLineToLanguage(text, null, targetLanguage);
-        translatedText = translationResult.orElse(unknownHeadingRepresentation);
+        translatedText = translationResult.orElse(UNKNOWN_HEADING_REPRESENTATION);
 
         Optional<String> sourceLanguageOfLastTranslation = translator.getSourceLanguageOfLastTranslation();
-        this.sourceLanguage = sourceLanguageOfLastTranslation.orElse(unknownLanguageRepresentation);
+        this.sourceLanguage = sourceLanguageOfLastTranslation.orElse(UNKNOWN_LANGUAGE_REPRESENTATION);
     }
 
     public int getType() {
@@ -53,7 +49,7 @@ public class Heading {
         }
         Optional<String> languageTranslation = translator.translateSourceCodeToLanguage(sourceLanguage);
 
-        return languageTranslation.orElse(unknownLanguageRepresentation);
+        return languageTranslation.orElse(UNKNOWN_LANGUAGE_REPRESENTATION);
     }
 
     public String getRepresentation(int depth) {

@@ -1,15 +1,10 @@
 package tests;
 
-import com.deepl.api.DeepLException;
 import io.Log;
 import org.junit.jupiter.api.BeforeEach;
-import translator.DeeplTranslator;
 import translator.Translator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeeplTranslatorTest {
@@ -19,7 +14,7 @@ class DeeplTranslatorTest {
     private static final String ENGLISH_TEXT = "Hello it's me";
     private static final String SOURCE_LANGUAGE_CODE_GERMAN = "de";
     private static final String TARGET_LANGUAGE_CODE_ENGLISH = "en-GB";
-    private static final String nullRepresentation = "NULL";
+    private static final String NULL_REPRESENTATION = "NULL";
     private static Translator translator;
 
     @BeforeEach
@@ -37,7 +32,7 @@ class DeeplTranslatorTest {
     void testTranslateNotEmpty() {
         Optional<String> translateLineResult = translator.translateLineToLanguage(GERMAN_TEXT, SOURCE_LANGUAGE_CODE_GERMAN, TARGET_LANGUAGE_CODE_ENGLISH);
 
-        translation = translateLineResult.orElse(nullRepresentation);
+        translation = translateLineResult.orElse(NULL_REPRESENTATION);
 
         assertEquals(ENGLISH_TEXT, translation);
         assertEquals(SOURCE_LANGUAGE_CODE_GERMAN, translator.getSourceLanguageOfLastTranslation().get());

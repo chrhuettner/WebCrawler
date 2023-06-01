@@ -1,6 +1,5 @@
 package tests;
 
-import translator.DeeplTranslator;
 import core.Heading;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

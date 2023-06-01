@@ -85,8 +85,6 @@ class LanguageTest {
         }
     }
 
-
-
     private String trimRatioString(double ratio, int decimals) {
         String ratioString = (ratio * 100 + "");
         int indexOfComma = ratioString.indexOf(".") + 1;

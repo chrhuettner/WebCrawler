@@ -9,13 +9,12 @@ import java.util.Optional;
 public class DeeplTranslator extends Translator {
     private com.deepl.api.Translator translator;
     private TextResult lastTranslation;
-    private static final String authKey = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
-
+    private static final String AUTH_KEY = "445fe747-0d4c-9c62-c101-002d26140a51:fx";
     private Log errorLog;
 
     public DeeplTranslator(){
         this.errorLog = Log.getLog();
-        translator = new com.deepl.api.Translator(authKey);
+        translator = new com.deepl.api.Translator(AUTH_KEY);
     }
 
     // We have a limit budget of 500.000 characters per month, so be careful with depth when you call this method
@@ -34,7 +33,6 @@ public class DeeplTranslator extends Translator {
         } catch (InterruptedException e) {
             errorLog.logError("Deepl got Interrupted while translating "+line+" from "+sourceLanguage+" to "+targetLanguage);
         }
-
         return Optional.empty();
     }
 

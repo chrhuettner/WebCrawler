@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
 
-    PrintStream oldOut;
-    InputStream oldIn;
-    LogStream loggedOutput;
+    private PrintStream oldOut;
+    private InputStream oldIn;
+    private LogStream loggedOutput;
 
     @Test
     void testPromptInput() {
@@ -28,7 +28,7 @@ class MainTest {
     }
 
     @Test
-    void teststringArrayToIntArray(){
+    void testStringArrayToIntArray(){
         assertEquals(0, Main.stringArrayToIntArray(new String[]{"d","e"})[0]);
     }
 

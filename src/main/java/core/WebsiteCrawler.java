@@ -13,10 +13,8 @@ public class WebsiteCrawler {
     private Parser parser;
     private Log errorLog;
     private Translator translator;
-
-    private static String unknownTargetLanguageRepresentation = "unknown Target Language";
-
-    private static int unknownHeadingType = 1;
+    private static String UNKNWON_TARGET_LANGUAGE_REPRESENTATION = "Unknown Target Language";
+    private static int UNKNOWN_HEADING_TYPE = 1;
 
     public WebsiteCrawler(String url, Parser parser, Translator translator) {
         this.url = url;
@@ -24,7 +22,6 @@ public class WebsiteCrawler {
         this.parser = parser;
         this.errorLog = Log.getLog();
         this.translator = translator;
-
     }
 
     public String getUrl() {
@@ -71,12 +68,11 @@ public class WebsiteCrawler {
     }
 
     private Heading[] extractHeadings(String targetLanguage) {
-
         ArrayList<String> headingTagsOnPage = parser.getTagOfElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
         ArrayList<String> headingsOnPage = parser.getElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
         Heading[] headings = new Heading[headingTagsOnPage.size()];
         for (int i = 0; i < headings.length; i++) {
-            int headingType = extractHeadingType(headingTagsOnPage.get(i)).orElse(unknownHeadingType);
+            int headingType = extractHeadingType(headingTagsOnPage.get(i)).orElse(UNKNOWN_HEADING_TYPE);
             headings[i] = new Heading(headingType, headingsOnPage.get(i), targetLanguage, Translator.getTranslator());
         }
         return headings;
@@ -107,7 +103,6 @@ public class WebsiteCrawler {
             sortedLanguages.add(new Language(ratio, language));
         }
         Collections.sort(sortedLanguages);
-
         return sortedLanguages;
     }
 
@@ -133,11 +128,10 @@ public class WebsiteCrawler {
 
         String languageRepresentation = getLanguageRepresentation(crawledLinks);
 
-
         representation = "input: <a>" + getUrl() + "</a>" + System.lineSeparator() +
                 "<br>depth: " + depth + System.lineSeparator() +
                 "<br>source languages: " + languageRepresentation + System.lineSeparator() +
-                "<br>target language: " + translator.translateTargetCodeToLanguage(targetLanguage).orElse(unknownTargetLanguageRepresentation) + System.lineSeparator() +
+                "<br>target language: " + translator.translateTargetCodeToLanguage(targetLanguage).orElse(UNKNWON_TARGET_LANGUAGE_REPRESENTATION) + System.lineSeparator() +
                 "<br>summary:" + System.lineSeparator();
 
         createWebsiteLinksRepresentation(crawledLinks);

@@ -20,7 +20,6 @@ public class Log {
         if(instantiatedLog == null){
             instantiatedLog = new Log();
         }
-
         return instantiatedLog;
     }
 

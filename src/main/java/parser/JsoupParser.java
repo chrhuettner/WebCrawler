@@ -5,7 +5,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ public class JsoupParser extends Parser {
     protected JsoupParser() {
         this.errorLog = Log.getLog();
     }
-
 
     @Override
     public ArrayList<String> getElementsThatMatchCssQuery(String query) {

@@ -1,6 +1,5 @@
 package tests;
 
-import translator.DeeplTranslator;
 import core.Heading;
 import core.WebsiteLink;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +86,7 @@ class WebsiteLinkTest {
     }
 
     @Test
-    void insertUniqueLanguages() {
+    void testInsertUniqueLanguages() {
         setUpInsertUniqueLanguages();
         Map<String, Integer> languages = new HashMap<>();
         websiteLink.insertUniqueLanguages(languages);

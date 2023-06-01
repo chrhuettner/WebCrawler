@@ -1,5 +1,4 @@
 package core;
-
 import io.Log;
 
 public class ThreadOrganizer {
@@ -33,10 +32,13 @@ public class ThreadOrganizer {
         if(crawlThreads==null){
             return "";
         }
+
         for (int i = 0; i < crawlThreads.length; i++) {
             crawlThreads[i].start();
         }
+
         waitForThreadsToFinish();
+
         return mergeCrawlResults();
     }
 
