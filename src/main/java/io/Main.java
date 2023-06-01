@@ -1,11 +1,6 @@
-package core;
+package io;
 
-import com.deepl.api.DeepLException;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
+import core.ThreadManager;
 
 public class Main {
 
@@ -14,7 +9,7 @@ public class Main {
     }
 
     public static void promptInput() {
-        Scanner scanner = new Scanner(System.in);
+       /* Scanner scanner = new Scanner(System.in);
 
         System.out.println("URL: (Seperated by spaces)");
         String url = scanner.nextLine();
@@ -30,14 +25,14 @@ public class Main {
 
         String result = interpretInput(url, depth, targetLanguage);
         String resultWithErrors = result+Log.getLog().getErrorsAsString();
-        FileWriter.writeToFile(targetPath, resultWithErrors);
+        FileWriter.writeToFile(targetPath, resultWithErrors);*/
 
-        /*ThreadManager manager = new ThreadManager(new String[]{"arf.a"}, new int[]{2}, new String[]{"German"});
+        ThreadManager manager = new ThreadManager(new String[]{"https://orf.at"}, new int[]{1}, new String[]{"German"});
 
-        String representation =  manager.crawlAllWebsitesInParallel();
+        String representation = manager.crawlAllWebsitesInParallel();
         System.out.println(representation);
 
-        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+Log.getLog().getErrorsAsString());*/
+        FileWriter.writeToFile("test.md", representation+System.lineSeparator()+ Log.getLog().getErrorsAsString());
     }
 
     public static String interpretInput(String url, String depth, String targetLanguage) {

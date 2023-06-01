@@ -1,6 +1,6 @@
 package tests;
 
-import core.FileWriter;
+import io.FileWriter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

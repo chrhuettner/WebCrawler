@@ -1,14 +1,12 @@
 package tests;
 
+import translator.DeeplTranslator;
 import core.Heading;
-import core.Language;
 import core.WebsiteLink;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +26,8 @@ class WebsiteLinkTest {
     @BeforeEach
     void setUp() {
         url = "https://orf.at";
-        heading1 = new Heading(1, "Test", LANGUAGE_CODE_GERMAN);
-        heading2 = new Heading(2, "again", LANGUAGE_CODE_GERMAN);
+        heading1 = new Heading(1, "Test", LANGUAGE_CODE_GERMAN, new DeeplTranslator());
+        heading2 = new Heading(2, "again", LANGUAGE_CODE_GERMAN, new DeeplTranslator());
         headingArray = new Heading[2];
         headingArray[0] = heading1;
         headingArray[1] = heading2;
@@ -79,8 +77,8 @@ class WebsiteLinkTest {
 
     @Test
     void testGetRepresentationNoText() {
-        heading1 = new Heading(1, "", LANGUAGE_CODE_GERMAN);
-        heading2 = new Heading(2, "", LANGUAGE_CODE_GERMAN);
+        heading1 = new Heading(1, "", LANGUAGE_CODE_GERMAN, new DeeplTranslator());
+        heading2 = new Heading(2, "", LANGUAGE_CODE_GERMAN, new DeeplTranslator());
         headingArray[0] = heading1;
         headingArray[1] = heading2;
         websiteLink = new WebsiteLink(url, headingArray, depth, false);

@@ -1,6 +1,6 @@
 package tests;
 
-import core.Main;
+import io.Main;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

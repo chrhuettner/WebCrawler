@@ -1,8 +1,8 @@
 package core;
 
 
-import com.deepl.api.DeepLException;
-import com.deepl.api.TextResult;
+import translator.Translator;
+import java.util.Optional;
 
 public class Heading {
 
@@ -11,23 +11,25 @@ public class Heading {
     private String sourceLanguage;
     private String translatedText;
     private String targetLanguage;
+    private Translator translator;
 
-    public Heading(int type, String text, String targetLanguage) {
+    private static String unknownLanguageRepresentation = "UNKNOWN LANGUAGE";
+
+    private static String unknownHeadingRepresentation = "UNKNOWN TRANSLATED HEADING";
+
+    public Heading(int type, String text, String targetLanguage, Translator translator) {
         this.type = type;
         this.text = text;
         this.targetLanguage = targetLanguage;
+        this.translator = translator;
     }
 
     private void doTranslation() {
-        TextResult translation = null;
-        try {
-            translation = Translator.translate(text, null, targetLanguage);
-        } catch (DeepLException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        Optional<String> translationResult = translator.translateLineToLanguage(text, null, targetLanguage);
+        translatedText = translationResult.orElse(unknownHeadingRepresentation);
 
-        this.sourceLanguage = translation.getDetectedSourceLanguage();
-        this.translatedText = translation.getText();
+        Optional<String> sourceLanguageOfLastTranslation = translator.getSourceLanguageOfLastTranslation();
+        this.sourceLanguage = sourceLanguageOfLastTranslation.orElse(unknownLanguageRepresentation);
     }
 
     public int getType() {
@@ -49,7 +51,9 @@ public class Heading {
         if (sourceLanguage == null) {
             doTranslation();
         }
-        return Language.translateSourceCodeToLanguage(sourceLanguage);
+        Optional<String> languageTranslation = translator.translateSourceCodeToLanguage(sourceLanguage);
+
+        return languageTranslation.orElse(unknownLanguageRepresentation);
     }
 
     public String getRepresentation(int depth) {

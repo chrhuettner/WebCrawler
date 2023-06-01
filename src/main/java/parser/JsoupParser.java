@@ -1,5 +1,6 @@
-package core;
+package parser;
 
+import io.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,7 +9,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class JsoupParser implements Parser {
+public class JsoupParser extends Parser {
 
     private Document document;
     private Log errorLog;

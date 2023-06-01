@@ -1,8 +1,12 @@
-package core;
+package parser;
 
 import java.util.ArrayList;
 
-public interface Parser {
+public abstract class Parser {
+
+    public static Parser getParser(){
+        return new JsoupParser();
+    }
 
     public abstract ArrayList<String> getElementsThatMatchCssQuery(String query);
 

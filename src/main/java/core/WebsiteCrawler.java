@@ -1,11 +1,8 @@
 package core;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
+import io.Log;
+import parser.Parser;
+import translator.Translator;
 import java.util.*;
 
 public class WebsiteCrawler {
@@ -15,12 +12,16 @@ public class WebsiteCrawler {
     private String representation;
     private Parser parser;
     private Log errorLog;
+    private Translator translator;
 
-    public WebsiteCrawler(String url, Parser parser) {
+    private static String unknownTargetLanguageRepresentation = "unknown Target Language";
+
+    public WebsiteCrawler(String url, Parser parser, Translator translator) {
         this.url = url;
         links = new HashSet<>();
         this.parser = parser;
         this.errorLog = Log.getLog();
+        this.translator = translator;
 
     }
 
@@ -38,21 +39,28 @@ public class WebsiteCrawler {
     private void getPageLinks(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         if ((!links.contains(URL) && (depth < maxDepth))) {
             System.out.println(">> Depth: " + depth + " [" + URL + "]");
-            handleURL(URL, depth, maxDepth, webLinks, targetLanguage);
+            attemptCrawl(URL, depth, maxDepth, webLinks, targetLanguage);
         }
     }
 
-    private void handleURL(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
+    private void attemptCrawl(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         links.add(URL);
-        if(!parser.connectToWebsite(URL)){
-            errorLog.logError("Crawler aborted crawling "+URL);
+
+        if (!parser.connectToWebsite(URL)) {
+            errorLog.logError("Crawler aborted crawling " + URL);
             return;
         }
+
+        recursiveCrawl(URL, depth, maxDepth, webLinks, targetLanguage);
+    }
+
+    private void recursiveCrawl(String URL, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         ArrayList<String> linksOnPage = parser.getLinksOnWebsite();
         WebsiteLink link = new WebsiteLink(URL, extractHeadings(targetLanguage), depth, false);
         webLinks.add(link);
         crawlLinks(linksOnPage, depth + 1, maxDepth, webLinks, targetLanguage);
     }
+
 
     private void crawlLinks(ArrayList<String> linksOnPage, int depth, int maxDepth, List<WebsiteLink> webLinks, String targetLanguage) {
         for (String link : linksOnPage) {
@@ -66,7 +74,7 @@ public class WebsiteCrawler {
         ArrayList<String> headingsOnPage = parser.getElementsThatMatchCssQuery("h1, h2, h3, h4, h5, h6");
         Heading[] headings = new Heading[headingTagsOnPage.size()];
         for (int i = 0; i < headings.length; i++) {
-            headings[i] = new Heading(extractHeadingType(headingTagsOnPage.get(i)), headingsOnPage.get(i), targetLanguage);
+            headings[i] = new Heading(extractHeadingType(headingTagsOnPage.get(i)), headingsOnPage.get(i), targetLanguage, Translator.getTranslator());
         }
         return headings;
     }
@@ -117,10 +125,11 @@ public class WebsiteCrawler {
 
         String languageRepresentation = getLanguageRepresentation(crawledLinks);
 
+
         representation = "input: <a>" + getUrl() + "</a>" + System.lineSeparator() +
                 "<br>depth: " + depth + System.lineSeparator() +
                 "<br>source languages: " + languageRepresentation + System.lineSeparator() +
-                "<br>target language: " + Language.translateTargetCodeToLanguage(targetLanguage) + System.lineSeparator() +
+                "<br>target language: " + translator.translateTargetCodeToLanguage(targetLanguage).orElse(unknownTargetLanguageRepresentation) + System.lineSeparator() +
                 "<br>summary:" + System.lineSeparator();
 
         createWebsiteLinksRepresentation(crawledLinks);

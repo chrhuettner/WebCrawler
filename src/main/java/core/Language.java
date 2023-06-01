@@ -1,8 +1,9 @@
 package core;
 
-import com.deepl.api.DeepLException;
+import io.Log;
 
 import java.util.Locale;
+
 
 public class Language implements Comparable<Language> {
     private double ratio;
@@ -63,47 +64,4 @@ public class Language implements Comparable<Language> {
         return representation;
     }
 
-    public static String translateLanguageToCode(String language) {
-        try {
-            for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
-                if (l.getName().toLowerCase().startsWith(language.toLowerCase())) {
-                    return l.getCode();
-                }
-            }
-        } catch (DeepLException | InterruptedException e) {
-            errorLog.logError("Translation Error occurred. Tried to translate "+language+" to Code.");
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // This method translates the ISO 3166-1 Language-Code (e.g. 'en-GB', 'pt-BR')(target language) to a language name
-    public static String translateTargetCodeToLanguage(String code) {
-        try {
-            for (com.deepl.api.Language l : Translator.getTranslator().getTargetLanguages()) {
-                if (l.getCode().toLowerCase().equals(code.toLowerCase())) {
-                    return l.getName();
-                }
-            }
-        } catch (DeepLException | InterruptedException e) {
-            errorLog.logError("Translation Error occurred. Tried to translate target "+code+" to Language.");
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // This method translates the ISO 639-1 Language-Code (e.g. 'en', 'pt')(source language) to a language name
-    public static String translateSourceCodeToLanguage(String code) {
-        try {
-            for (com.deepl.api.Language l : Translator.getTranslator().getSourceLanguages()) {
-                if (l.getCode().toLowerCase().equals(code.toLowerCase())) {
-                    return l.getName();
-                }
-            }
-        } catch (DeepLException | InterruptedException e) {
-            errorLog.logError("Translation Error occurred. Tried to translate source "+code+" to Language.");
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

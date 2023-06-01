@@ -3,6 +3,8 @@ package tests;
 import core.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import parser.JsoupParser;
+import translator.DeeplTranslator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +27,7 @@ class WebsiteCrawlerTest {
 
     @BeforeEach
     void setUp() {
-        crawler = new WebsiteCrawler(URL, new JsoupParser());
+        crawler = new WebsiteCrawler(URL, new JsoupParser(), new DeeplTranslator());
     }
 
     private List<WebsiteLink> setUpInsertUniqueHeadingLanguages() {
@@ -95,7 +97,7 @@ class WebsiteCrawlerTest {
 
     @Test
     void testBrokenLink() {
-        crawler = new WebsiteCrawler(WRONG_URL, new JsoupParser());
+        crawler = new WebsiteCrawler(WRONG_URL, new JsoupParser(), new DeeplTranslator());
         List<WebsiteLink> links = crawler.crawl(1, TARGET_LANGUAGE_CODE_ENGLISH);
 
         assertTrue(links.size() == 1);

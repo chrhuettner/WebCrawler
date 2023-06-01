@@ -1,5 +1,6 @@
 package tests;
 
+import translator.DeeplTranslator;
 import core.Heading;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class HeadingTest {
 
     @BeforeEach
     void setUp() {
-        heading = new Heading(TYPE, TEXT, TARGET_LANGUAGE_CODE_GERMAN);
+        heading = new Heading(TYPE, TEXT, TARGET_LANGUAGE_CODE_GERMAN, new DeeplTranslator());
     }
 
     @Test
@@ -46,7 +47,7 @@ class HeadingTest {
 
     @Test
     void testGetRepresentationNoText() {
-        heading = new Heading(TYPE, "", TARGET_LANGUAGE_CODE_GERMAN);
+        heading = new Heading(TYPE, "", TARGET_LANGUAGE_CODE_GERMAN, new DeeplTranslator());
 
         assertEquals("", heading.getRepresentation(1));
     }
